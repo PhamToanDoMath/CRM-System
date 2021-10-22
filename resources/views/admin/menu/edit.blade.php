@@ -7,7 +7,8 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-body">
-                    <form action="{{route('admin.menu.store')}}" method="POST">
+                    <form action="{{route('admin.menu.update',$menu)}}" method="POST">
+                        @method('PUT')
                         @csrf
                         @if( $errors->any())
                             <div class="alert alert-danger">
@@ -18,15 +19,15 @@
                                 </ul>
                             </div>
                         @endif
-
+                        
                         <div class="mb-3">
                             <label class="form-label" for="name">Name</label>
-                            <input class="form-control" id="name" name="name" type="text">
+                            <input class="form-control" id="name" name="name" value="{{$menu->name}}" type="text">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label" for="description">Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                            <textarea class="form-control" id="description" name="description" rows="3">{{$menu->description}}</textarea>
                         </div>
  
                         {{-- <div class="mb-3">
@@ -36,12 +37,12 @@
 
                         <div class="row mb-3 ">
                             <div class="col-auto">
-                                <label class="form-label" for="price">Price</label>
-                                <input class="form-control" id="price" name="price" value="0" type="text">
+                                <label class="form-label" for="description">Price</label>
+                                <input class="form-control" id="price" name="price" value="{{$menu->price}}" type="text">
                             </div>
                             <div class="col-auto">
-                                <label class="form-label" for="quantity">Quantity</label>
-                                <input class="form-control" type="number" id="quantity" value="0" name="quantity" step="1">
+                                <label class="form-label" for="description">Quantity</label>
+                                <input class="form-control" type="number" id="quantity" value="{{$menu->quantity}}" name="quantity" step="1">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary mb-3">Save</button>

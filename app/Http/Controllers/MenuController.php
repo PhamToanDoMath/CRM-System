@@ -14,8 +14,8 @@ class MenuController extends Controller
      */
     public function index()
     {
-        // $menus = Menu::all();
-        return view('admin.menu.index');
+        $menus = Menu::all();
+        return view('admin.menu.index', compact('menus'));
     }
 
     /**
@@ -37,31 +37,23 @@ class MenuController extends Controller
     public function store(Request $request)
     {
         Menu::create($request->validate([
-            'name: required | is_available: required | price: required |quantity: required'
+            'name'=> 'required',
+            'price' => 'required',
+            'quantity' => 'required',
+            'description' => 'required',
         ]));
+        // dd($request->request);
         return redirect()->route('admin.menu.index');
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Menu 
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Menu $menu)
     {
-        //
+        return view('admin.menu.edit',compact('menu'));
     }
 
     /**
@@ -71,9 +63,15 @@ class MenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Menu $menu)
     {
-        //
+        $menu->update($request->validate([
+            'name'=> 'required',
+            'price' => 'required',
+            'quantity' => 'required',
+            'description' => 'required',
+        ]));
+        return redirect()->route('admin.menu.index');
     }
 
     /**
@@ -82,8 +80,10 @@ class MenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Menu $menu)
     {
-        //
+        // Menu::where('id',$menu->id)->delete();
+        $menu->delete();
+        return redirect()->route('admin.menu.index');
     }
 }

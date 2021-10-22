@@ -32,15 +32,13 @@
                                     </svg>Customers</a></li>
 
                             <li class="nav-title">Manage Menu</li>
-                            <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+                            <li class="nav-group"><a class="nav-link nav-group-toggle" >
                                     <svg class="nav-icon">
                                         <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-puzzle')}}"></use>
                                     </svg> Menu</a>
                                 <ul class="nav-group-items">
-                                    <li class="nav-item"><a class="nav-link" href="#"><span
+                                    <li class="nav-item"><a class="nav-link" href="{{route('admin.menu.index')}}"><span
                                                 class="nav-icon"></span> Show all</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{route('admin.menu.create')}}"><span
-                                        class="nav-icon"></span> Create new item</a></li>
                                 </ul>
                             </li>
         
