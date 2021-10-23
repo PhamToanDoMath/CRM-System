@@ -186,7 +186,7 @@
         <ul class="header-nav me-4">
             <li class="nav-item dropdown d-flex align-items-center"><a class="nav-link py-0"
                     data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <div class="avatar avatar-md"><img class="avatar-img" src="https://avatars.dicebear.com/api/male/{{auth()->user()->name}}.svg"></div>
+                    <div class="avatar avatar-md"><img class="avatar-img" src="https://avatars.dicebear.com/api/male/{{optional(auth()->user())->name}}.svg"></div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end pt-0">
                     <div class="dropdown-header bg-light py-2">
@@ -203,7 +203,7 @@
             </li>
         </ul>
     </div>
-    <div class="header-divider"></div>
+    {{-- <div class="header-divider"></div>
     <div class="container-fluid">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb my-0 ms-2">
@@ -213,5 +213,5 @@
                 <li class="breadcrumb-item active"><span>Dashboard</span></li>
             </ol>
         </nav>
-    </div>
+    </div> --}}
 </header>

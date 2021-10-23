@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Menu;
-
+use App\Http\Controllers\Controller;
 class MenuController extends Controller
 {
     /**
@@ -36,13 +36,17 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        Menu::create($request->validate([
+        $menu = Menu::create($request->validate([
             'name'=> 'required',
             'price' => 'required',
             'quantity' => 'required',
             'description' => 'required',
         ]));
-        // dd($request->request);
+        // dd($request);
+        if($request->hasFile('image') && $request->file('image')->isValid()){
+            $menu->addMediaFromRequest('image')->toMediaCollection('images');
+        }
+
         return redirect()->route('admin.menu.index');
     }
     /**
@@ -71,6 +75,8 @@ class MenuController extends Controller
             'quantity' => 'required',
             'description' => 'required',
         ]));
+
+        
         return redirect()->route('admin.menu.index');
     }
 
@@ -86,4 +92,6 @@ class MenuController extends Controller
         $menu->delete();
         return redirect()->route('admin.menu.index');
     }
+
+    
 }

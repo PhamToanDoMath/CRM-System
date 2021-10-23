@@ -25,6 +25,7 @@ Route::get('/home', 'HomeController@index')->name('welcome');
 Route::group(['prefix' => 'admin','as' => 'admin.','middleware' => 'check_role:admin'], function(){
     Route::resource('customers', CustomerController::class);
     Route::resource('menu', MenuController::class);
+    // Route::delete('images',[\App\Http\Controllers\ImageController::class,'destroy'])->name('images.destroy');
 });
 
 // Route::group(['prefix' => 'chef','as' => 'chef.','middleware' => 'check_role:chef'], function(){
