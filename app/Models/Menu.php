@@ -15,6 +15,7 @@ class Menu extends Model implements HasMedia
         'description',
         'price',
         'is_available',
-        'quantity'
+        'quantity',
+        'menu_group_id'
     ];
 }

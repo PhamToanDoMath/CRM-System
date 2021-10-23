@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use App\Models\MenuGroup;
 class MenuResource extends JsonResource
 {
     /**
@@ -14,10 +14,12 @@ class MenuResource extends JsonResource
      */
     public function toArray($request)
     {
+        $categories = MenuGroup::all();
         return [
             'name' => $this->name,
             'price' => $this->price,
             'quantity' => $this->quantity,
+            'category' => $categories->where('id',$this->menu_group_id)->first()->name,
             'is_available' => $this->is_available,
             'image' => $this->getFirstMediaUrl('images'),
             'description' =>$this->description,

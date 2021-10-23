@@ -15,7 +15,8 @@ class MenuController extends Controller
     public function index()
     {
         $menus = Menu::all();
-        return view('admin.menu.index', compact('menus'));
+        $menu_groups = \App\Models\MenuGroup::all();
+        return view('admin.menu.index', compact('menus','menu_groups'));
     }
 
     /**
@@ -41,6 +42,7 @@ class MenuController extends Controller
             'price' => 'required',
             'quantity' => 'required',
             'description' => 'required',
+            'menu_group_id' => 'required',
         ]));
         // dd($request);
         if($request->hasFile('image') && $request->file('image')->isValid()){

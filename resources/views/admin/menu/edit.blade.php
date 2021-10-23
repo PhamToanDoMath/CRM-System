@@ -5,7 +5,7 @@
     <div class="c-body">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
                         <form action="{{route('admin.menu.update',$menu)}}" method="POST">
@@ -44,6 +44,17 @@
                                 <div class="col-auto">
                                     <label class="form-label" for="description">Quantity</label>
                                     <input class="form-control" type="number" id="quantity" value="{{$menu->quantity}}" name="quantity" step="1">
+                                </div>
+                                <div class="col-auto ">
+                                    <label class="form-label" for="quantity">Group</label>
+                                    <select class="form-select" aria-label="Choose group" name="menu_group_id">
+                                        @foreach(\App\Models\MenuGroup::all() as $group)
+                                            <option value="{{$group->id}}"
+                                                @if($group->id === $menu->menu_group_id) selected @endif>
+                                                {{$group->name}}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary mb-3">Save</button>

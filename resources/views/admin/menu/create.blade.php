@@ -41,6 +41,14 @@
                                         <input class="form-control" type="number" id="quantity" value="0"
                                             name="quantity" step="1">
                                     </div>
+                                    <div class="col-auto">
+                                        <label class="form-label" for="quantity">Group</label>
+                                        <select class="form-select" aria-label="Choose group" name="menu_group_id">
+                                            @foreach(\App\Models\MenuGroup::all() as $group)
+                                                <option value="{{$group->id}}">{{$group->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary mb-3">Save</button>
                             </div>

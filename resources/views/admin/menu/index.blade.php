@@ -35,7 +35,7 @@
                                                 <a href="{{route('admin.menu.edit',$menu)}}">
                                                     {{$menu->name}}</a>
                                             </td>
-                                            <td>N/A</td>
+                                            <td>{{$menu_groups->where('id',$menu->menu_group_id)->first()->name}}</td>
                                             <td>{{$menu->price}}</td>
                                             <td>{{$menu->quantity}}</td>
                                             <td>
