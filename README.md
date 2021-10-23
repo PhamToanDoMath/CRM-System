@@ -1,16 +1,18 @@
 Hướng dẫn khởi tạo môi trường trên Linux:
 
 Bước 1: Cài đặt PHP và MySQL <br>
-<code> apt install php7.4 php7.4-xml php7.4-mbstring php7.4-mysql php7.4-json php7.4-curl php7.4-cli php7.4-common php7.4-mcrypt php7.4-gd libapache2-mod-php7.4 php7.4-zip<br>
-apt-get install mysql-server </code> <br>
-
+<code>apt-get install mysql-server </code> <br>
+<code>sudo apt install php7.4 php7.4-common php7.4-cli php7.4-xml php7.4-curl php7.4-json php7.4-gd php7.4-mbstring php7.4-intl 
+php7.4-bcmath php7.4-bz2 php7.4-readline php7.4-zip php7.4-mysql</code><br>
 Bước 1b: Cài đặt composer<br>
-<code> curl -sS https://getcomposer.org/installer | php
-mv composer.phar /usr/bin/composer</code> <br>
+<code> curl -sS https://getcomposer.org/installer | php </code><br>
+<code> mv composer.phar /usr/bin/composer</code> <br>
 
 Bước 2a: Kéo repo về <br>
 Bước 2b: Di chuyển vào thư mục vừa kéo về <br>
 <code>cd CRM-System</code><br>
+Bước 2c: Tải vendors về <br>
+<code>composer install</code><br>
 
 Bước 3: Copy file .env<br>
 <code>copy .env.example .env</code><br>
