@@ -14,4 +14,7 @@ class MenuController extends Controller
     public function index(){
         return MenuResource::collection(Menu::all());
     }
+    public function show($id){
+        return new MenuResource(Menu::find($id));
+    }
 }

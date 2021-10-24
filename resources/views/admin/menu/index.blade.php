@@ -4,7 +4,7 @@
 <main class="c-main">
     <div class="c-body">
         <div class="container">
-
+            <div class="row">
             <div class="col-auto">
                 <a class="btn btn-primary" type="button" href="{{route('admin.menu.create')}}">
                     <svg class="icon me-1">
@@ -12,6 +12,20 @@
                     </svg>New
                 </a>
             </div>
+            <div class="col-auto float-right">
+                <div class="btn-group">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-coreui-toggle="dropdown" aria-expanded="false">
+                        <svg class="icon me-1">
+                            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-filter')}}"></use>
+                        </svg>Filter by</button>
+                    <ul class="dropdown-menu">
+                    @foreach(\App\Models\MenuGroup::all() as $group)
+                        <li><a class="dropdown-item" href="#">{{$group->name}}</a></li>
+                    @endforeach
+                    </ul>
+                  </div>
+            </div>
+        </div>
             <div class="row justify-content-center mt-5">
                 <div class="col-md-12">
                     <div class="card">
@@ -61,9 +75,9 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{-- <div class="d-flex justify-content-center"
-                            {{ $customers->links()}}
-                        </div> --}}
+                        <div class="d-flex justify-content-center"
+                            {{ $menus->links()}}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -14,7 +14,7 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $menus = Menu::all();
+        $menus = Menu::paginate(10);
         $menu_groups = \App\Models\MenuGroup::all();
         return view('admin.menu.index', compact('menus','menu_groups'));
     }

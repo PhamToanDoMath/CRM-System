@@ -18,7 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('menu','API\MenuController@index')->name('api.menu');
+Route::get('menu','API\MenuController@index')->name('api.menu.index');
+Route::get('menu/{id}','API\MenuController@show')->name('api.menu.show');
 // Route::post('order', 'OrderController::class@store')->name('api.order');
 // Route::post('customer', 'CustomerController::class@show')->name('api.customer');
 

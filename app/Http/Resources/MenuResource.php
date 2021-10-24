@@ -16,6 +16,7 @@ class MenuResource extends JsonResource
     {
         $categories = MenuGroup::all();
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'price' => $this->price,
             'quantity' => $this->quantity,
