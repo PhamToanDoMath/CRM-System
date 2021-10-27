@@ -1,8 +1,6 @@
 <h1 align="center">Requirement elicitation</h1>
-<h3 align="center">Let's design a Restaurant Management System</h3>
 
-**We'll cover the following:**
-
+**Contain:**
 * [The Context Of The Project](#the-context-of-the-project)
 * [Functional And Non-Functional Requirements](#functional-and-non-functional-requirements)
 * [Use-Case Diagram](#use-case-diagram)
