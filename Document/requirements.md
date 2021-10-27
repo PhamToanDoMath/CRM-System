@@ -26,10 +26,10 @@ Improve your service, and your sales will see a boost as well – a happy domino
 POS systems provide customers with a restaurant in their pockets, with simple and indirect access to all the restaurant services anywhere, at any time, which brings huge convenience.
 This raises a plus point on customers’ mentality who concerns about health during COVID-19 pandemic.
 
-**Stakeholders:**
+**Stakeholders in the system:**
 Clerks, Customers, Kitchen, Owner, Suppliers, Accountants
 
-**Expected:**
+**Expected to be done:**
 * Remote orders and reservations.
 * Real-time menu updates
 * System-integrated payment via multiple methods.
@@ -40,7 +40,7 @@ Clerks, Customers, Kitchen, Owner, Suppliers, Accountants
 * Can access through QR code and web browser
 * Web-based
 
-**Scope:**
+**The scope of the project:**
 * Activities: Develop a new POS system for a restaurant model that follows some special requirements.
 * Resources: **NONE**
 * Deliverables: An extendable web-based POS terminal and relating documentations of the system should be delivered to the restaurant’s representatives.
@@ -92,7 +92,7 @@ System side:
 
 ### Use-Case Diagram
 
-Here is the use-case diagram for the whole system:
+The use-case diagram for the whole system:
 
 <p align="center">
     <img src="Use-case/whole-system-use-case.png" alt="Whole System Use-Case Diagram">
@@ -100,7 +100,7 @@ Here is the use-case diagram for the whole system:
     Use-case diagram for the whole system
 </p>
 
-Here is the use-case diagram for the "**order food**" feature and its description:
+The use-case diagram for the "**order food**" feature and its description:
 
 <p align="center">
     <img src="Use-case/order-food-use-case.png" alt="Order Food Use-Case Diagram">
@@ -108,7 +108,7 @@ Here is the use-case diagram for the "**order food**" feature and its descriptio
     Use-case diagram for the "order food" feature
 </p>
 
-Here is the description for the above diagram:
+The description for the above diagram:
 
 <table>
     <tr>
