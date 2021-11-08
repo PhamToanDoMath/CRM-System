@@ -25,27 +25,33 @@
                             </li>
                             
                             <li class="nav-title">Manage Customers</li>
-                        
                             <li class="nav-item"><a class="nav-link" href="{{route('admin.customers.index')}}">
                                     <svg class="nav-icon">
                                         <use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-user')}}"></use>
                                     </svg>Customers</a></li>
 
                             <li class="nav-title">Manage Menu</li>
-                            <li class="nav-group"><a class="nav-link nav-group-toggle" >
+                            <li class="nav-group"><a class="nav-link" href="{{route('admin.menu.index')}}" >
                                     <svg class="nav-icon">
-                                        <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-puzzle')}}"></use>
-                                    </svg> Menu</a>
-                                <ul class="nav-group-items">
-                                    <li class="nav-item"><a class="nav-link" href="{{route('admin.menu.index')}}"><span
-                                                class="nav-icon"></span> Show all</a></li>
-                                </ul>
+                                        <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-dinner')}}"></use>
+                                    </svg>Restaurant Menu</a>
                             </li>
-        
 
-                                    
+                            <li class="nav-title">Manage Orders</li>
+                            <li class="nav-group"><a class="nav-link" href="{{route('admin.orders.index')}}" >
+                                    <svg class="nav-icon">
+                                        <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-basket')}}"></use>
+                                    </svg>Orders</a>
+                            </li>
 
-                            <li class="nav-title">Components</li>
+                            <li class="nav-title">Manage Vouchers</li>
+                            <li class="nav-group"><a class="nav-link" href="{{route('admin.menu.index')}}" >
+                                    <svg class="nav-icon">
+                                        <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-tag')}}"></use>
+                                    </svg>Voucher</a>
+                            </li>
+
+                            {{-- <li class="nav-title">Components</li>
                             <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
                                     <svg class="nav-icon">
                                         <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-puzzle')}}"></use>
@@ -82,7 +88,7 @@
                                     <li class="nav-item"><a class="nav-link" href="base/tooltips.html"><span
                                                 class="nav-icon"></span> Tooltips</a></li>
                                 </ul>
-                            </li>
+                            </li> --}}
                             
                             <li class="nav-item mt-auto"><a class="nav-link" href="login.html" target="_top" 
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
