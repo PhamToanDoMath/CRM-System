@@ -26,13 +26,15 @@ Route::group(['prefix' => 'admin','as' => 'admin.','middleware' => 'check_role:a
     Route::resource('customers', CustomerController::class);
     Route::resource('menu', MenuController::class);
     Route::resource('orders', OrderController::class);
-
+    Route::resource('vouchers', VoucherController::class)->only(['index']);
+    Route::get('dashboard', 'DashboardController@index')->name('dashboard');
     // Route::delete('images',[\App\Http\Controllers\ImageController::class,'destroy'])->name('images.destroy');
 });
 
-// Route::group(['prefix' => 'chef','as' => 'chef.','middleware' => 'check_role:chef'], function(){
-//     //
-// });
+Route::group(['prefix' => 'chef','as' => 'chef.','middleware' => 'check_role:chef'], function(){
+    Route::get('orders', 'OrderController@indexAsChef')->name('orders.index');
+    // Route::resource('menu', MenuController::class)->only(['index',]);
+});
 
 // Route::group(['prefix' => 'clerk','as' => 'clerk.','middleware' => 'check_role:clerk'], function(){
 //     //

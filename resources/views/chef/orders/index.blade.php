@@ -16,7 +16,6 @@
                                     <th>{{__('Total purchased')}}</th>
                                     <th>{{__('Payment method')}}</th>                                    
                                     <th>{{__('Created At')}}</th>
-                                    <th>{{__('Status')}}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -30,22 +29,10 @@
                                             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-wallet')}}"></use>
                                         </svg></td>
                                         <td>{{$order->created_at}}</td>
-                                        <td>
-                                            @if($order->order_status == 0 )
-                                            <button class="btn btn-warning" type="button">Waiting</button>
-                                            @elseif($order->order_status == 1)
-                                            <button class="btn btn-success" type="button">On Prepared</button>
-                                            @else
-                                            <button class="btn btn-info" type="button">Done</button>
-                                            @endif
-                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        <div class="d-flex justify-content-center"
-                            {{ $orders->links()}}
-                        </div>
                     </div>
                 </div>
             </div>

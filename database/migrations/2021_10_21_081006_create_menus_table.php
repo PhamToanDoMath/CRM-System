@@ -20,8 +20,7 @@ class CreateMenusTable extends Migration
             $table->bigInteger('price');
             $table->boolean('is_available')->default(1);
             $table->unsignedInteger('quantity');
-            // $table->string('image_link'); 
-            // $table->foreignId('menu_group_id')->constrained();
+            $table->foreignId('menu_group_id')->constrained();
             $table->timestamps();
         });
     }

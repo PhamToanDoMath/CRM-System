@@ -4,10 +4,7 @@
 <main class="c-main">
     <div class="c-body">
         <div class="container">
-            @livewire('filter-menu-category',[
-                'menus' => $menus,
-                'menu_groups' => $menu_groups,    
-            ])
+            @livewire('filter-menu-category')
         </div>
     </div>
 </main>

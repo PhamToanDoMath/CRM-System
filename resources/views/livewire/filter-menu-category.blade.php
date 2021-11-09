@@ -38,44 +38,43 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($menus as $menu)
-                    <tr class="text-center">
-                        <th scope="row">{{$menu->id}}</th>
-                        <td>
-                            <a href="{{route('admin.menu.edit',$menu)}}">
-                                {{$menu->name}}</a>
-                        </td>
-                        <td>{{$menu_groups->where('id',$menu->menu_group_id)->first()->name}}</td>
-                        <td>{{$menu->price}}</td>
-                        <td>{{$menu->quantity}}</td>
-                        <td>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" style="margin-left:auto" type="checkbox"
-                                    id="is_available" @if($menu->is_available) checked @endif 
-                                    wire:click="toggle_available({{$menu->id}})">
-                            </div>
-                        </td>
-                        <td>
-                            <div class="col-auto">
-                                <form method="POST" action="{{route('admin.menu.destroy',$menu)}}">
-                                    @csrf
-                                    @method('delete')
-                                    <button class="btn btn-outline-danger btn-sm" type="submit"
-                                        onclick="return confirm('Are you sure you want to delete this?');"><svg
-                                            class="icon me-1">
-                                            <use
-                                                xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-trash')}}">
-                                            </use>
-                                        </svg>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                    {{-- <div class="d-flex justify-content-center"
-                            {{ $menus->links()}}
-                    </div> --}}
+                    @if (is_array($menuItems) || is_object($menuItems))
+                        @foreach($menuItems as $menuItem)
+                        <tr class="text-center">
+                            <th scope="row">{{$menuItem->id}}</th>
+                            <td>
+                                <a href="{{route('admin.menu.edit',$menuItem)}}">
+                                    {{$menuItem->name}}</a>
+                            </td>
+                            <td>{{$menu_groups->where('id',$menuItem->menu_group_id)->first()->name}}</td>
+                            <td>{{$menuItem->price}}</td>
+                            <td>{{$menuItem->quantity}}</td>
+                            <td>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" style="margin-left:auto" type="checkbox"
+                                        id="is_available" @if($menuItem->is_available) checked @endif 
+                                        wire:click="toggle_available({{$menuItem->id}})">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-auto">
+                                    <form method="POST" action="{{route('admin.menu.destroy',$menuItem)}}">
+                                        @csrf
+                                        @method('delete')
+                                        <button class="btn btn-outline-danger btn-sm" type="submit"
+                                            onclick="return confirm('Are you sure you want to delete this?');"><svg
+                                                class="icon me-1">
+                                                <use
+                                                    xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-trash')}}">
+                                                </use>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
