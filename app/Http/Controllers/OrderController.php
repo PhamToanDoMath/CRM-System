@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Order;
+use App\Models\{Order, Customer};
 class OrderController extends Controller
 {
     /**
@@ -13,7 +13,11 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::paginate(15);
+        $orders = Order::paginate(10);
+        foreach($orders as $order){
+            // $customer = Customer::find($order->customer_id);
+            $order->phoneNumber = Customer::find($order->customer_id)->phoneNumber;
+        }
         return view('admin.orders.index', compact('orders'));
     }
 
@@ -91,5 +95,26 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function elevateStatus($id){
+        $order = Order::find($id);
+        if ($order->order_status < 2) $order->order_status++;
+        $order->save();
+        return redirect()->back();
+    }
+
+    public function confirmAsClerk($id){
+        $order = Order::find($id);
+        if ($order->order_status == 0) $order->order_status++;
+        $order->save();
+        return redirect()->route('clerk.orders.index');
+    }
+
+    public function confirmAsChef($id){
+        $order = Order::find($id);
+        if ($order->order_status == 1) $order->order_status++;
+        $order->save();
+        return redirect()->route('chef.orders.index');
     }
 }

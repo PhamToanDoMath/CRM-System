@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Order;
-use App\Models\OrderItem;
+use App\Models\{Order, OrderItem, Customer};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -16,9 +15,21 @@ class OrderController extends Controller
         if ( !(new OrderService())->isValid($body) ){
             return response('Bad request', 400);
         }
-        
+
+        $customer = Customer::where('phoneNumber',$body['phoneNumber'])->first();
+        if(!$customer){
+            $customer = Customer::create([
+                // 'name' => $body['name'],
+                'phoneNumber' => $body['phoneNumber'],
+                'address' => $body['address'],
+            ]);
+        }
+        $customer->update([
+            'last_purchased_date' => now()
+        ]);
+
         $new_order = Order::create([
-            'customer_id' => $body['customer_id'],
+            'customer_id' => $customer->id,
             'total' => $body['total'],
             'voucher_id'=> $body['voucher_id'],
             'address' => $body['address'],

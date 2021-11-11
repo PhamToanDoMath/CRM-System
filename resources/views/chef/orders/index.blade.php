@@ -16,6 +16,7 @@
                                     <th>{{__('Total purchased')}}</th>
                                     <th>{{__('Payment method')}}</th>                                    
                                     <th>{{__('Created At')}}</th>
+                                    <th>{{__('Status')}}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -29,6 +30,19 @@
                                             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-wallet')}}"></use>
                                         </svg></td>
                                         <td>{{$order->created_at}}</td>
+                                        <td>
+                                            <form action="{{route('chef.orders.confirmAsChef',$order->id)}}" method="POST">
+                                                @csrf
+                                                @if($order->order_status == 1)
+                                                <button class="btn btn-success" type="submit"
+                                                onclick="return confirm('Are you sure you want to update this?');">
+                                                    On Prepared
+                                                </button>
+                                                @elseif($order->order_status == 2 )
+                                                <button class="btn btn-info disabled">Done</button>
+                                                @endif
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

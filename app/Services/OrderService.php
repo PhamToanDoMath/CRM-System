@@ -11,7 +11,7 @@ class OrderService {
         
         $total = 0;
         foreach($order['order_items'] as $order_item){
-            $total += Menu::find($order_item['menu_id'])->price * $order_item['quantity'];
+            $total += Menu::find($order_item['menu_id'])->price * (int)$order_item['quantity'];
         }
 
         return $total === (int)$order['total'] ? true: false;

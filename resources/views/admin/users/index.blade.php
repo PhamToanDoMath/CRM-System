@@ -21,7 +21,11 @@
                                 @foreach($customers as $customer)
                                     <tr>
                                         <td>{{$customer->phoneNumber}}</td>
-                                        <td>{{$customer->name}}</td>
+                                        <td>
+                                            @if(!$customer->name) N/A
+                                            @else {{$customer->name}}
+                                            @endif
+                                        </td>
                                         <td>{{$customer->address}}</td>
                                         <td>{{$customer->created_at}}</td>
                                     </tr>

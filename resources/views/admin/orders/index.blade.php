@@ -23,7 +23,7 @@
                                 @foreach($orders as $order)
                                     <tr class="text-center">
                                         <td>{{$order->id}}</td>
-                                        <td> Currently not available</td>
+                                        <td>{{$order->phoneNumber}}</td>
                                         <td>{{$order->address}}</td>
                                         <td>{{$order->total}} đ</td>
                                         <td><svg class="icon">
@@ -31,13 +31,22 @@
                                         </svg></td>
                                         <td>{{$order->created_at}}</td>
                                         <td>
-                                            @if($order->order_status == 0 )
-                                            <button class="btn btn-warning" type="button">Waiting</button>
-                                            @elseif($order->order_status == 1)
-                                            <button class="btn btn-success" type="button">On Prepared</button>
-                                            @else
-                                            <button class="btn btn-info" type="button">Done</button>
-                                            @endif
+                                            <form action="{{route('admin.orders.elevateStatus',$order->id)}}" method="POST">
+                                                @csrf
+                                                @if($order->order_status == 0 )
+                                                <button class="btn btn-warning" type="submit"
+                                                onclick="return confirm('Are you sure you want to update this?');">
+                                                    Waiting
+                                                </button>
+                                                @elseif($order->order_status == 1)
+                                                <button class="btn btn-success" type="submit"
+                                                onclick="return confirm('Are you sure you want to update this?');">
+                                                    On Prepared
+                                                </button>
+                                                @else
+                                                <button class="btn btn-info active">Done</button>
+                                                @endif
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
