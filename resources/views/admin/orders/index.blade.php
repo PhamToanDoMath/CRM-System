@@ -1,6 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
+
+<div class="row">
+    <div class="col-auto">
+        <a class="btn btn-primary" type="button" href="{{route('admin.orders.create')}}">
+            <svg class="icon me-1">
+                <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-plus')}}"></use>
+            </svg>New
+        </a>
+    </div>
+</div>
+<br></br>
 <main class="c-main">
     <div class="c-body">
         <div class="container">
@@ -11,18 +22,22 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>{{__('ID')}}</th>
-                                    <th>{{__('Customer Name')}}</th>
+                                    <th>{{__('Phone Number')}}</th>
                                     <th>{{__('Address')}}</th>
                                     <th>{{__('Total purchased')}}</th>
                                     <th>{{__('Payment method')}}</th>                                    
                                     <th>{{__('Created At')}}</th>
                                     <th>{{__('Status')}}</th>
+                                    <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($orders as $order)
                                     <tr class="text-center">
-                                        <td>{{$order->id}}</td>
+                                        <td>
+                                            <a href="{{route('admin.orders.edit',$order)}}">
+                                                {{$order->id}}</a>
+                                        </td>
                                         <td>{{$order->phoneNumber}}</td>
                                         <td>{{$order->address}}</td>
                                         <td>{{$order->total}} đ</td>
@@ -47,6 +62,22 @@
                                                 <button class="btn btn-info active">Done</button>
                                                 @endif
                                             </form>
+                                        </td>
+                                        <td>
+                                            <div class="col-auto">
+                                                <form method="POST" action="{{route('admin.orders.destroy',$order)}}">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button class="btn btn-outline-danger btn-sm" type="submit"
+                                                        onclick="return confirm('Are you sure you want to delete this?');"><svg
+                                                            class="icon me-1">
+                                                            <use
+                                                                xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-trash')}}">
+                                                            </use>
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

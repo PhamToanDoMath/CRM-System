@@ -8,9 +8,9 @@ class Order extends Model
 {
         public $fillable = [
             'total',
-            'voucher_id',
-            'address',
-            'customer_id'
+            'voucher_id', 
+            'address', 
+            'customer_id' 
         ];
 
         public function orderItems(){

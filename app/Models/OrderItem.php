@@ -8,7 +8,7 @@ class OrderItem extends Model
 {
     public $fillable = [
         'quantity',
-        'order_id',
+        'order_id', 
         'menu_id' 
     ];
 }
