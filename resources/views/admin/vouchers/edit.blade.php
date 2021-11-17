@@ -44,12 +44,12 @@
 
                             <div class="mb-3">
                                 <label class="form-label" for="start_from">Start From</label>
-                                <input class="form-control" id="start_from" name="start_from" value="{{$voucher->start_from}}" type="date">
+                                <input class="form-control" id="start_from" name="start_from" value="{{$voucher->start_from->format('Y-m-d')}}" type="date">
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label" for="end_at">End At</label>
-                                <input class="form-control" id="end_at" name="end_at" value="{{$voucher->end_at}}" type="date">
+                                <input class="form-control" id="end_at" name="end_at" value="{{$voucher->end_at->format('Y-m-d')}}" type="date">
                             </div>
 
                             <div class="mb-3">
