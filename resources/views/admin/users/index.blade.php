@@ -1,5 +1,14 @@
 @extends('layouts.app')
 
+@livewireStyles
+</head>
+<body>
+    ...
+ 
+    @livewireScripts
+</body>
+</html>
+
 @section('content')
 <main class="c-main">
     <div class="c-body">
@@ -11,10 +20,13 @@
                         <table class="table table-responsive-sm">
                             <thead>
                                 <tr>
-                                    <th>{{__('Phone Number')}}</th>
-                                    <th>{{__('Name')}}</th>
-                                    <th>{{__('Address')}}</th>
-                                    <th>{{__('Created At')}}</th>
+                                    <th style="vertical-align:middle">{{__('Phone Number')}}</th>
+                                    <th style="vertical-align:middle">
+                                    {{__('Name')}}
+                                    <span style="float: right; cursor: pointer">⮃</span>
+                                    </th>
+                                    <th style="vertical-align:middle">{{__('Address')}}</th>
+                                    <th style="vertical-align:middle">{{__('Created At')}}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -28,6 +40,13 @@
                                         </td>
                                         <td>{{$customer->address}}</td>
                                         <td>{{$customer->created_at}}</td>
+                                        <td><a href="{{route('admin.customers.edit',$customer)}}" class="btn btn-secondary">Edit</a></td>
+                                        <td>
+                                            {!!Form::open(['action' => ['CustomerController@destroy', $customer->id], 'method' => 'POST', 'class' => 'pull-right'])!!}
+                                                    {{Form::hidden('_method', 'DELETE')}}
+                                                    {{Form::submit('Delete', ['class' => 'btn btn-secondary-sm'] )}}
+                                            {!!Form::close()!!}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -36,6 +55,7 @@
                             {{ $customers->links()}}
                         </div>
                     </div>
+                        <a href="/admin/customers/create/" class="btn btn-primary" style="margin-top: 20px">Add Customer</a>
                 </div>
             </div>
         </div>
