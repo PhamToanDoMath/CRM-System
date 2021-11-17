@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Order, OrderItem, Customer, Menu};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Exceptions\VoucherException;
 use App\Http\Controllers\Controller;
-use App\Services\OrderService;
+use App\Services\{OrderService,VoucherService};
+use App\Models\{Order, OrderItem, Customer, Menu, Voucher};
+
 class OrderController extends Controller
 {
     /**
@@ -52,10 +54,15 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'phoneNumber' => 'required',
+            'address' => 'required'
+        ]);
+
         $customer = Customer::where('phoneNumber',$request['phoneNumber'])->first();
         if(!$customer){
             $customer = Customer::create([
-                // 'name' => $body['name'],
+                'name' => $request['name'] ?? NULL,
                 'phoneNumber' => $request['phoneNumber'],
                 'address' => $request['address'],
             ]);
@@ -76,10 +83,25 @@ class OrderController extends Controller
             }
         }
 
+        if ($request['voucher_id']){
+
+            //Handle exception when making a voucher transaction 
+            try{
+                $total = (new VoucherService())->getTotalAfterApplyVoucher($request['voucher_id'],$total);
+            }catch(VoucherException $error){
+                return redirect()->back()->withErrors(['token' => $error->getMessage()]); 
+            }
+
+            // Get voucher id
+            $voucher = Voucher::where('voucher_id',$request['voucher_id'])->first();
+            if ($voucher) $voucherID = $voucher->id;
+        }
+        
+
         $new_order = Order::create([
             'customer_id' => $customer->id,
             'total' => $total,
-            'voucher_id'=> $request['voucher_id'],
+            'voucher_id'=> $voucherID ?? NULL,
             'address' => $request['address'],
         ]);
 
@@ -92,7 +114,7 @@ class OrderController extends Controller
                 ]);
             }
         }
-        return redirect()->route('admin.orders.index');
+        return redirect()->route('admin.orders.index')->with('message', 'success');
     }
 
     /**
@@ -114,8 +136,9 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        $order_Items = OrderItem::where('order_id',$order->id)->get();
-        return view('admin.orders.edit',compact('order', 'order_Items'));
+        $orderItems = OrderItem::where('order_id',$order->id)->get();
+        $customer = Customer::find($order->customer_id);
+        return view('admin.orders.edit',compact('order', 'orderItems','customer'));
     }
 
     /**
@@ -127,34 +150,33 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        /*
-        $customer = Customer::where('id',$order['customer_id'])->first();
+        $request->validate([
+            'phoneNumber' => 'required',
+            'address' => 'required'
+        ]);
+
+        $customer = Customer::where('phoneNumber',$request['phoneNumber'])->first();
         if(!$customer){
             $customer = Customer::create([
-                // 'name' => $body['name'],
+                'name' => $request['name'] ?? NULL,
                 'phoneNumber' => $request['phoneNumber'],
                 'address' => $request['address'],
             ]);
         }
-        $customer->update([
-            'last_purchased_date' => now()
-        ]);
-        */
 
         $total = 0;
-
         foreach($request['order_items'] as $orderItem){
             if($orderItem['menu_id'] && $orderItem['quantity']){
                 $menu = Menu::where('id',$orderItem['menu_id'])->first();
                 $total += $orderItem['quantity'] * $menu->price;
             }
         }
-        /*
+        
         $order->update([
             'total' => $total,
             'voucher_id'=> $request['voucher_id'],
         ]);
-        */
+        
 
         $order_Items = OrderItem::where('order_id',$order->id)->get();
         foreach($order_Items as $orderItem){
@@ -182,6 +204,7 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
+        OrderItem::where('order_id', $order->id)->delete();
         $order->delete();
         return redirect()->route('admin.orders.index');
     }

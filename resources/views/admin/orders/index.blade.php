@@ -1,21 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
-
-<div class="row">
-    <div class="col-auto">
-        <a class="btn btn-primary" type="button" href="{{route('admin.orders.create')}}">
-            <svg class="icon me-1">
-                <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-plus')}}"></use>
-            </svg>New
-        </a>
-    </div>
-</div>
-<br></br>
 <main class="c-main">
     <div class="c-body">
         <div class="container">
+            <div class="row mb-4">
+                <div class="col-auto">
+                    <a class="btn btn-primary" type="button" href="{{route('admin.orders.create')}}">
+                        <svg class="icon me-1">
+                            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-plus')}}"></use>
+                        </svg>New
+                    </a>
+                </div>
+            </div>
             <div class="row justify-content-center">
+                @if(Session::has('message'))
+                    <div class="alert alert-success">
+                        Success! You have created a new order
+                    </div>
+                @endif
                 <div class="col-md-12">
                     <div class="card">
                         <table class="table table-responsive-sm">

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Http\Controllers\Controller;
+
+
 class MenuController extends Controller
 {
     /**
@@ -44,7 +46,6 @@ class MenuController extends Controller
             'description' => 'required',
             'menu_group_id' => 'required',
         ]));
-        // dd($request);
         if($request->hasFile('image') && $request->file('image')->isValid()){
             $menu->addMediaFromRequest('image')->toMediaCollection('images');
         }
@@ -95,5 +96,4 @@ class MenuController extends Controller
         return redirect()->route('admin.menu.index');
     }
 
-    
 }
