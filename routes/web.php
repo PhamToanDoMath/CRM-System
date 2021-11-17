@@ -1,5 +1,6 @@
 <?php
 
+//use App\Http\Controllers\VoucherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,7 +28,7 @@ Route::group(['prefix' => 'admin','as' => 'admin.','middleware' => 'check_role:a
     Route::resource('menu', MenuController::class);
     Route::resource('orders', OrderController::class);
     Route::post('orders/elevate/{id}', 'OrderController@elevateStatus')->name('orders.elevateStatus');
-    Route::resource('vouchers', VoucherController::class)->only(['index']);
+    Route::resource('vouchers', VoucherController::class);
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
     // Route::delete('images',[\App\Http\Controllers\ImageController::class,'destroy'])->name('images.destroy');
 });
