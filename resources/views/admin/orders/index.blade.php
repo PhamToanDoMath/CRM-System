@@ -5,6 +5,11 @@
     <div class="c-body">
         <div class="container">
             <div class="row mb-4">
+                @if(Session::has('message'))
+                    <div class="alert alert-success">
+                        Success! You have created a new order
+                    </div>
+                @endif
                 <div class="col-auto">
                     <a class="btn btn-primary" type="button" href="{{route('admin.orders.create')}}">
                         <svg class="icon me-1">
@@ -14,11 +19,7 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                @if(Session::has('message'))
-                    <div class="alert alert-success">
-                        Success! You have created a new order
-                    </div>
-                @endif
+                
                 <div class="col-md-12">
                     <div class="card">
                         <table class="table table-responsive-sm">

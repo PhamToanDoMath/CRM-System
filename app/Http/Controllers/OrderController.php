@@ -52,69 +52,69 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'phoneNumber' => 'required',
-            'address' => 'required',
-            'payment_method' => 'required'
-        ]);
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'phoneNumber' => 'required',
+    //         'address' => 'required',
+    //         'payment_method' => 'required'
+    //     ]);
 
-        $customer = Customer::where('phoneNumber',$request['phoneNumber'])->first();
-        if(!$customer){
-            $customer = Customer::create([
-                'name' => $request['name'] ?? NULL,
-                'phoneNumber' => $request['phoneNumber'],
-                'address' => $request['address'],
-            ]);
-        }
-        $customer->update([
-            'last_purchased_date' => now()
-        ]);
+    //     $customer = Customer::where('phoneNumber',$request['phoneNumber'])->first();
+    //     if(!$customer){
+    //         $customer = Customer::create([
+    //             'name' => $request['name'] ?? NULL,
+    //             'phoneNumber' => $request['phoneNumber'],
+    //             'address' => $request['address'],
+    //         ]);
+    //     }
+    //     $customer->update([
+    //         'last_purchased_date' => now()
+    //     ]);
 
-        $total = 0;
+    //     $total = 0;
 
-        foreach($request['order_items'] as $orderItem){
-            if($orderItem['menu_id'] && $orderItem['quantity']){
-                $menu = Menu::where('id',$orderItem['menu_id'])->first();
-                if($menu){
-                    $total += $orderItem['quantity'] * $menu->price;
-                }
-                else{return redirect()->route('admin.orders.index');}
-            }
-        }
+    //     foreach($request['order_items'] as $orderItem){
+    //         if($orderItem['menu_id'] && $orderItem['quantity']){
+    //             $menu = Menu::where('id',$orderItem['menu_id'])->first();
+    //             if($menu){
+    //                 $total += $orderItem['quantity'] * $menu->price;
+    //             }
+    //             else{return redirect()->route('admin.orders.index');}
+    //         }
+    //     }
 
-        if ($request['voucher_id']){
+    //     if ($request['voucher_id']){
 
-            //Handle exception when making a voucher transaction 
-            try{
-                $total = (new VoucherService())->getTotalAfterApplyVoucher($request['voucher_id'],$total);
-            }catch(VoucherException $error){
-                return redirect()->back()->withErrors(['token' => $error->getMessage()]); 
-            }
-        }
+    //         //Handle exception when making a voucher transaction 
+    //         try{
+    //             $total = (new VoucherService())->getTotalAfterApplyVoucher($request['voucher_id'],$total);
+    //         }catch(VoucherException $error){
+    //             return redirect()->back()->withErrors(['token' => $error->getMessage()]); 
+    //         }
+    //     }
         
-        // dd($request);
-        $new_order = Order::create([
-            'customer_id' => $customer->id,
-            'total' => $total,
-            'payment_method' => $request['payment_method'],
-            'voucher_id'=> $request['voucher_id'] ?? NULL,
-            'address' => $request['address'],
+    //     // dd($request);
+    //     $new_order = Order::create([
+    //         'customer_id' => $customer->id,
+    //         'total' => $total,
+    //         'payment_method' => $request['payment_method'],
+    //         'voucher_id'=> $request['voucher_id'] ?? NULL,
+    //         'address' => $request['address'],
             
-        ]);
+    //     ]);
 
-        foreach($request['order_items'] as $orderItem){
-            if($orderItem['menu_id'] && $orderItem['quantity']){
-                OrderItem::create([
-                    'order_id' => $new_order->id,
-                    'menu_id' => $orderItem['menu_id'],
-                    'quantity' => $orderItem['quantity'],
-                ]);
-            }
-        }
-        return redirect()->route('admin.orders.index')->with('message', 'success');
-    }
+    //     foreach($request['order_items'] as $orderItem){
+    //         if($orderItem['menu_id'] && $orderItem['quantity']){
+    //             OrderItem::create([
+    //                 'order_id' => $new_order->id,
+    //                 'menu_id' => $orderItem['menu_id'],
+    //                 'quantity' => $orderItem['quantity'],
+    //             ]);
+    //         }
+    //     }
+    //     return redirect()->route('admin.orders.index')->with('message', 'success');
+    // }
 
     /**
      * Display the specified resource.
@@ -147,65 +147,65 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
-    {
-        $request->validate([
-            'phoneNumber' => 'required',
-            'address' => 'required',
-            'payment_method' => 'required'
-        ]);
+    // public function update(Request $request, Order $order)
+    // {
+    //     $request->validate([
+    //         'phoneNumber' => 'required',
+    //         'address' => 'required',
+    //         'payment_method' => 'required'
+    //     ]);
 
-        $customer = Customer::where('phoneNumber',$request['phoneNumber'])->first();
-        if(!$customer){
-            $customer = Customer::create([
-                'name' => $request['name'] ?? NULL,
-                'phoneNumber' => $request['phoneNumber'],
-                'address' => $request['address'],
-            ]);
-        }
+    //     $customer = Customer::where('phoneNumber',$request['phoneNumber'])->first();
+    //     if(!$customer){
+    //         $customer = Customer::create([
+    //             'name' => $request['name'] ?? NULL,
+    //             'phoneNumber' => $request['phoneNumber'],
+    //             'address' => $request['address'],
+    //         ]);
+    //     }
 
-        $total = 0;
-        foreach($request['order_items'] as $orderItem){
-            if($orderItem['menu_id'] && $orderItem['quantity']){
-                $menu = Menu::where('id',$orderItem['menu_id'])->first();
-                $total += $orderItem['quantity'] * $menu->price;
-            }
-        }
+    //     $total = 0;
+    //     foreach($request['order_items'] as $orderItem){
+    //         if($orderItem['menu_id'] && $orderItem['quantity']){
+    //             $menu = Menu::where('id',$orderItem['menu_id'])->first();
+    //             $total += $orderItem['quantity'] * $menu->price;
+    //         }
+    //     }
 
-        if ($request['voucher_id']){
+    //     if ($request['voucher_id']){
 
-            //Handle exception when making a voucher transaction 
-            try{
-                $total = (new VoucherService())->getTotalAfterApplyVoucher($request['voucher_id'],$total);
-            }catch(VoucherException $error){
-                return redirect()->back()->withErrors(['token' => $error->getMessage()]); 
-            }
-        }
+    //         //Handle exception when making a voucher transaction 
+    //         try{
+    //             $total = (new VoucherService())->getTotalAfterApplyVoucher($request['voucher_id'],$total);
+    //         }catch(VoucherException $error){
+    //             return redirect()->back()->withErrors(['token' => $error->getMessage()]); 
+    //         }
+    //     }
         
-        $order->update([
-            'total' => $total,
-            'voucher_id'=> $request['voucher_id'] ?? NULL,
-            'payment_method' => $request['payment_method']
-        ]);
+    //     $order->update([
+    //         'total' => $total,
+    //         'voucher_id'=> $request['voucher_id'] ?? NULL,
+    //         'payment_method' => $request['payment_method']
+    //     ]);
         
 
-        $order_Items = OrderItem::where('order_id',$order->id)->get();
-        foreach($order_Items as $orderItem){
-            $orderItem->delete();
-        }
+    //     $order_Items = OrderItem::where('order_id',$order->id)->get();
+    //     foreach($order_Items as $orderItem){
+    //         $orderItem->delete();
+    //     }
         
-        foreach($request['order_items'] as $orderItem){
-            if($orderItem['menu_id'] && $orderItem['quantity']){
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'menu_id' => $orderItem['menu_id'],
-                    'quantity' => $orderItem['quantity'],
-                ]);
-            }
-        }
+    //     foreach($request['order_items'] as $orderItem){
+    //         if($orderItem['menu_id'] && $orderItem['quantity']){
+    //             OrderItem::create([
+    //                 'order_id' => $order->id,
+    //                 'menu_id' => $orderItem['menu_id'],
+    //                 'quantity' => $orderItem['quantity'],
+    //             ]);
+    //         }
+    //     }
         
-        return redirect()->route('admin.orders.index');
-    }
+    //     return redirect()->route('admin.orders.index');
+    // }
 
     /**
      * Remove the specified resource from storage.

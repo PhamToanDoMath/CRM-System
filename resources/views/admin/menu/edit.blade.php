@@ -72,7 +72,7 @@
                                         / width="100%"
                                     >
                                 </div>
-                                <div class="mt-3">
+                                {{-- <div class="mt-3">
                                     <a href="#" class="btn btn-primary btn-sm">Upload image</a>
                                     <form class="d-inline" action="" method="POST">
                                         @method('DELETE')
@@ -81,7 +81,7 @@
                                         onclick="return confirm('Are you sure you want to delete this?');"
                                         >Remove</button>
                                     </form>
-                                </div>
+                                </div> --}}
                             @else 
                                 <div class="mt-3">
                                     <img class="d-block" 
@@ -89,9 +89,9 @@
                                         / width="100%"
                                     >
                                 </div>
-                                <div class="mt-3">
+                                {{-- <div class="mt-3">
                                     <a href="#" class="btn btn-primary btn-sm">Upload image</a>
-                                </div>
+                                </div> --}}
                             @endif                         
                         </div>
                     </div>
