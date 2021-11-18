@@ -10,7 +10,8 @@ class Order extends Model
             'total',
             'voucher_id', 
             'address', 
-            'customer_id' 
+            'customer_id',
+            'payment_method'
         ];
 
         public function orderItems(){

@@ -56,7 +56,8 @@ class OrderController extends Controller
     {
         $request->validate([
             'phoneNumber' => 'required',
-            'address' => 'required'
+            'address' => 'required',
+            'payment_method' => 'required'
         ]);
 
         $customer = Customer::where('phoneNumber',$request['phoneNumber'])->first();
@@ -91,18 +92,16 @@ class OrderController extends Controller
             }catch(VoucherException $error){
                 return redirect()->back()->withErrors(['token' => $error->getMessage()]); 
             }
-
-            // Get voucher id
-            $voucher = Voucher::where('voucher_id',$request['voucher_id'])->first();
-            if ($voucher) $voucherID = $voucher->id;
         }
         
-
+        // dd($request);
         $new_order = Order::create([
             'customer_id' => $customer->id,
             'total' => $total,
-            'voucher_id'=> $voucherID ?? NULL,
+            'payment_method' => $request['payment_method'],
+            'voucher_id'=> $request['voucher_id'] ?? NULL,
             'address' => $request['address'],
+            
         ]);
 
         foreach($request['order_items'] as $orderItem){
@@ -152,7 +151,8 @@ class OrderController extends Controller
     {
         $request->validate([
             'phoneNumber' => 'required',
-            'address' => 'required'
+            'address' => 'required',
+            'payment_method' => 'required'
         ]);
 
         $customer = Customer::where('phoneNumber',$request['phoneNumber'])->first();
@@ -171,10 +171,21 @@ class OrderController extends Controller
                 $total += $orderItem['quantity'] * $menu->price;
             }
         }
+
+        if ($request['voucher_id']){
+
+            //Handle exception when making a voucher transaction 
+            try{
+                $total = (new VoucherService())->getTotalAfterApplyVoucher($request['voucher_id'],$total);
+            }catch(VoucherException $error){
+                return redirect()->back()->withErrors(['token' => $error->getMessage()]); 
+            }
+        }
         
         $order->update([
             'total' => $total,
-            'voucher_id'=> $request['voucher_id'],
+            'voucher_id'=> $request['voucher_id'] ?? NULL,
+            'payment_method' => $request['payment_method']
         ]);
         
 

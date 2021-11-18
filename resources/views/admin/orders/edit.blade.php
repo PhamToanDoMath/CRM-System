@@ -5,7 +5,16 @@
     <div class="c-body">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-6">
+                <div class="col-md-8">
+                    @if( $errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="list-group" style="list-style: none">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{$error}}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <form action="{{route('admin.orders.update', $order)}}" method="POST">
                         <div class="card mb-3">
                             <div class="card-header">
@@ -50,10 +59,27 @@
                                         value="{{$order->address}}" type="text">
                                 </div>
 
-                                <div class="col-auto mb-3">
-                                    <label class="form-label" for="Voucher">Voucher</label>
-                                    <input class="form-control" id="Voucher" name="voucher_id"
-                                        value="{{$order->voucher_id}}" type="text">
+
+                                <div class="row mb-3">
+                                    <div class="col-auto">
+                                        <label class="form-label" for="Voucher">Voucher</label>
+                                        <input class="form-control" id="Voucher" name="voucher_id"
+                                            value="{{$order->voucher_id}}" type="text">
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <label class="form-label" for="quantity">Payment method</label>
+                                        <select class="form-select" name="payment_method">
+                                                <option value="cash" 
+                                                @if($order->payment_method === 'cash') selected @endif>
+                                                    Cash
+                                                </option>
+                                                <option value="paypal" 
+                                                @if($order->payment_method === 'paypal') selected @endif>
+                                                    Paypal
+                                                </option>
+                                        </select>
+                                    </div>
                                 </div>
 
 

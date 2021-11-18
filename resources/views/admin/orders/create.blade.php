@@ -5,7 +5,7 @@
     <div class="c-body">
         <div class="container">
             <form action="{{route('admin.orders.store')}}" method="POST">
-                <div class="row">
+                <div class="row justify-content-center">
                     @csrf
                     <div class="col-md-8">
                         @if( $errors->any())
@@ -39,11 +39,20 @@
                                     <input class="form-control" id="address" name="address" type="text"></input>
                                 </div>
 
-                                <div class="mb-4">
-                                    <label class="form-label" for="voucher_id">Voucher</label>
-                                    <input class="form-control" id="voucher_id" name="voucher_id" type="text"></input>
+                                <div class="row mb-4">
+                                    <div class="col-md-6 col-auto">
+                                        <label class="form-label" for="voucher_id">Voucher</label>
+                                        <input class="form-control" id="voucher_id" name="voucher_id" type="text"></input>
+                                    </div>
+                                    
+                                    <div class="col-md-4 col-auto">
+                                        <label class="form-label" for="quantity">Payment method</label>
+                                        <select class="form-select" name="payment_method">
+                                                <option value="cash" >Cash</option>
+                                                <option value="paypal">Paypal</option>
+                                        </select>
+                                    </div>
                                 </div>
-
 
                                 <div class="input-group mb-3 mt-3">
                                     <span class="input-group-text">Item ID</span>

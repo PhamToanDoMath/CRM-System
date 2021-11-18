@@ -17,9 +17,10 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained();
             $table->bigInteger('total');
-            $table->foreignId('voucher_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->timestamps();
+            $table->string('voucher_id')->nullable();
             $table->text('address');
+            $table->text('payment_method');
+            $table->timestamps();
         });
     }
 
