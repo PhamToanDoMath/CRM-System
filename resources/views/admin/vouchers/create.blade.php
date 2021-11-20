@@ -31,8 +31,12 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label" for="type">Type (percentage or amount)</label>
-                                        <input class="form-control" id="type" name="type" value="amount" type="text">
+                                        <label class="form-label" for="type">Type</label>
+                                        <select class="form-control" id="type" name="type" type="text">
+                                            <option selected>Choose...</option>
+                                            <option {{{ (isset($voucher->type) && $voucher->type == 'Amount') ? "selected=\"selected\"" : "" }}}>Amount</option>
+                                            <option {{{ (isset($voucher->type) && $voucher->type == 'Percentage') ? "selected=\"selected\"" : "" }}}>Percentage</option>
+                                        </select>
                                     </div>
 
                                     <div class="mb-3">
@@ -52,10 +56,6 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label" for="is_enable">Availability</label>
-                                        <input class="form-control" id="is_enable" name="is_enable" value="1" type="text">
-
-                                    <div class="mb-3">
                                         <label class="form-label" for="released_voucher">Number of Released Voucher</label>
                                         <input class="form-control" id="released_voucher" name="released_voucher"
                                                value="0" type="text">
@@ -65,6 +65,12 @@
                                         <label class="form-label" for="used_voucher">Number of Used Voucher</label>
                                         <input class="form-control" id="used_voucher" name="used_voucher"
                                                value="0" type="text">
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label for="is_enable">Availability</label><br/>
+                                        <label class="radio-inline"><input type="radio" name="is_enable" value="1" {{{ (isset($voucher->is_enable) && $voucher->is_enable == '1') ? "checked" : "" }}}> Yes</label>
+                                        <label class="radio-inline"><input type="radio" name="is_enable" value="0" {{{ (isset($voucher->is_enable) && $voucher->is_enable == '0') ? "checked" : "" }}}> No</label>
                                     </div>
 
                                     <button type="submit" class="btn btn-primary mb-3">Save</button>
