@@ -16,7 +16,7 @@ class VoucherController extends Controller
      */
     public function index()
     {
-        $vouchers = Voucher::all();
+        $vouchers = Voucher::paginate(10);
         return view('admin.vouchers.index', compact('vouchers'));
     }
 
@@ -39,15 +39,15 @@ class VoucherController extends Controller
     public function store(Request $request)
     {
         $voucher = Voucher::create($request->validate([
-            'voucher_id' => 'required',
+            'voucher_id' => ['required','unique'],
             'name' => 'required',
             'type' => 'required',
             'deduction_amount' => 'required',
             'start_from' => 'required',
             'end_at' => 'required',
-            'is_enable' => 'required',
+            //'is_enable' => 'required',
             'released_voucher' => 'required',
-            'used_voucher' => 'required',
+            //'used_voucher' => 'required',
         ]));
 
         return redirect()->route('admin.vouchers.index');
@@ -76,17 +76,22 @@ class VoucherController extends Controller
         $voucher->update($request->validate([
             'voucher_id' => 'required',
             'name' => 'required',
-            'type' => 'required',
+            //'type' => 'required',
             'deduction_amount' => 'required',
             'start_from' => 'required',
             'end_at' => 'required',
-            'is_enable' => 'required',
             'released_voucher' => 'required',
-            'used_voucher' => 'required',
         ]));
 
         return redirect()->route('admin.vouchers.index');
     }
+
+    /*
+    public function show($id) {
+        $voucher = Voucher::select('select * from vouchers where id = ?',[$id]);
+        return view('clerk.vouchers.info');
+    }
+    */
 
     /**
      * Remove the specified resource from storage.
@@ -94,7 +99,7 @@ class VoucherController extends Controller
      * @param Voucher $voucher
      * @return Response
      */
-    public function destroy(Voucher $voucher)//$voucher_id)
+    public function destroy(Voucher $voucher)
     {
         //$voucher = Voucher::findOrFail($voucher_id);
         $voucher->delete();
