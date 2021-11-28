@@ -17,4 +17,7 @@ class Voucher extends Model
         'released_voucher',
         'used_voucher',
     ];
+
+    protected $dates = ['start_from', 'end_at'];
+
 }
