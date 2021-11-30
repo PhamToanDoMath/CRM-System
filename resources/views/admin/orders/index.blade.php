@@ -19,7 +19,6 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                
                 <div class="col-md-12">
                     <div class="card">
                         <table class="table table-responsive-sm">

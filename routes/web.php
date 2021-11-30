@@ -1,8 +1,6 @@
 <?php
 
 //use App\Http\Controllers\VoucherController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------

@@ -31,8 +31,12 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label" for="type">Type (percentage or amount)</label>
-                                        <input class="form-control" id="type" name="type" value="amount" type="text">
+                                        <label class="form-label" for="type">Type</label>
+                                        <select class="form-control" id="type" name="type" type="text">
+                                            <option selected>--Select--</option>
+                                            <option {{ (isset($voucher->type) && $voucher->type == 'amount') ? "selected" : "" }}>Amount</option>
+                                            <option {{ (isset($voucher->type) && $voucher->type == 'percentage') ? "selected" : "" }}>Percentage</option>
+                                        </select>
                                     </div>
 
                                     <div class="mb-3">

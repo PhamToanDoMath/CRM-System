@@ -39,7 +39,7 @@ class VoucherController extends Controller
     public function store(Request $request)
     {
         $voucher = Voucher::create($request->validate([
-            'voucher_id' => 'required',
+            'voucher_id' => ['required','unique'],
             'name' => 'required',
             'type' => 'required',
             'deduction_amount' => 'required',
@@ -88,13 +88,20 @@ class VoucherController extends Controller
         return redirect()->route('admin.vouchers.index');
     }
 
+    /*
+    public function show($id) {
+        $voucher = Voucher::select('select * from vouchers where id = ?',[$id]);
+        return view('clerk.vouchers.info');
+    }
+    */
+
     /**
      * Remove the specified resource from storage.
      *
      * @param Voucher $voucher
      * @return Response
      */
-    public function destroy(Voucher $voucher)//$voucher_id)
+    public function destroy(Voucher $voucher)
     {
         //$voucher = Voucher::findOrFail($voucher_id);
         $voucher->delete();
