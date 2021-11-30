@@ -4,8 +4,8 @@
     <main class="c-main">
         <div class="c-body">
             <div class="container">
-                <form action="{{route('admin.vouchers.store')}}" enctype="multipart/form-data" method="POST">
-                    <div class="row">
+                <form action="{{route('admin.vouchers.store')}}" method="POST">
+                    <div class="row justify-content-center">
                         @csrf
                         <div class="col-md-8">
                             <div class="card">
@@ -34,8 +34,8 @@
                                         <label class="form-label" for="type">Type</label>
                                         <select class="form-control" id="type" name="type" type="text">
                                             <option selected>--Select--</option>
-                                            <option {{ (isset($voucher->type) && $voucher->type == 'amount') ? "selected" : "" }}>Amount</option>
-                                            <option {{ (isset($voucher->type) && $voucher->type == 'percentage') ? "selected" : "" }}>Percentage</option>
+                                            <option value="amount">Amount</option>
+                                            <option value="percentage">Percentage</option>
                                         </select>
                                     </div>
 
@@ -56,18 +56,8 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label" for="is_enable">Availability</label>
-                                        <input class="form-control" id="is_enable" name="is_enable" value="1" type="text">
-
-                                    <div class="mb-3">
                                         <label class="form-label" for="released_voucher">Number of Released Voucher</label>
                                         <input class="form-control" id="released_voucher" name="released_voucher"
-                                               value="0" type="text">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label class="form-label" for="used_voucher">Number of Used Voucher</label>
-                                        <input class="form-control" id="used_voucher" name="used_voucher"
                                                value="0" type="text">
                                     </div>
 

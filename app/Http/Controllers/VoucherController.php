@@ -16,7 +16,7 @@ class VoucherController extends Controller
      */
     public function index()
     {
-        $vouchers = Voucher::all();
+        $vouchers = Voucher::paginate(10);
         return view('admin.vouchers.index', compact('vouchers'));
     }
 
@@ -38,17 +38,26 @@ class VoucherController extends Controller
      */
     public function store(Request $request)
     {
-        $voucher = Voucher::create($request->validate([
-            'voucher_id' => ['required','unique'],
+        $request->validate([
+            'voucher_id' => ['required','unique:vouchers'],
             'name' => 'required',
             'type' => 'required',
             'deduction_amount' => 'required',
             'start_from' => 'required',
             'end_at' => 'required',
-            'is_enable' => 'required',
-            'released_voucher' => 'required',
-            'used_voucher' => 'required',
-        ]));
+            'released_voucher' => 'required'
+        ]);
+        Voucher::create([
+            'voucher_id' => $request['voucher_id'],
+            'name' => $request['name'],
+            'type' => $request['type'],
+            'deduction_amount' => $request['deduction_amount'],
+            'start_from' => $request['start_from'],
+            'end_at' => $request['end_at'],
+            'released_voucher' => $request['released_voucher'],
+            'used_voucher' => 0,
+            'is_enable' => 1
+        ]);
 
         return redirect()->route('admin.vouchers.index');
     }
@@ -80,7 +89,6 @@ class VoucherController extends Controller
             'deduction_amount' => 'required',
             'start_from' => 'required',
             'end_at' => 'required',
-            'is_enable' => 'required',
             'released_voucher' => 'required',
             'used_voucher' => 'required',
         ]));

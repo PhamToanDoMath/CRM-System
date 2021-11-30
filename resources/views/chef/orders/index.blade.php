@@ -29,7 +29,7 @@
                                         <td>{{$order->phoneNumber}}</td>
                                         <td>{{$order->address}}</td>
                                         <td>{{$order->total}} đ</td>
-                                        <td><svg class="icon">
+                                        <td><svg class="icon" style="width:1.8rem;height:1.8rem;">
                                             @if($order->payment_method == 'paypal')
                                             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/brand.svg#cib-cc-paypal')}}"></use>
                                             @endif

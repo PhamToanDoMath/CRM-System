@@ -16,7 +16,7 @@ class VoucherSeeder extends Seeder
         Voucher::create([
             'voucher_id' => $prefix . $faker->randomNumber($nbDigits = 4, $strict = false),
             'name' => "Voucher 1",
-            'type' => "Amount",
+            'type' => "amount",
             'deduction_amount' => "15000",
             'start_from' => now()->subDays(1),
             'end_at' => now()->addDays(10),
@@ -28,7 +28,7 @@ class VoucherSeeder extends Seeder
         Voucher::create([
             'voucher_id' => $prefix . $faker->randomNumber($nbDigits = 4, $strict = false),
             'name' => "Voucher 2",
-            'type' => "Percentage",
+            'type' => "percentage",
             'deduction_amount' => "50",
             'start_from' => now()->subDays(1),
             'end_at' => now()->addDays(10),
@@ -39,7 +39,7 @@ class VoucherSeeder extends Seeder
         Voucher::create([
             'voucher_id' => $prefix . $faker->randomNumber($nbDigits = 4, $strict = false),
             'name' => "Voucher 3",
-            'type' => "Amount",
+            'type' => "amount",
             'deduction_amount' => "30000",
             'start_from' => now()->subDays(1),
             'end_at' => now()->addDays(10),

@@ -35,8 +35,11 @@
 
                                 <div class="mb-3">
                                     <label class="form-label" for="type">Type</label>
-                                    <input class="form-control" id="type" name="type" value="{{$voucher->type}}"
-                                        type="text">
+                                    <select class="form-control" id="type" name="type" type="text">
+                                        <option selected>--Select--</option>
+                                        <option  @if($voucher->type == 'amount') selected @endif>Amount</option>
+                                        <option @if($voucher->type == 'percentage') selected @endif}}>Percentage</option>
+                                    </select>
                                 </div>
 
                                 <div class="mb-3">
@@ -52,16 +55,11 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label" for="end_at">End At</label>
+                                <label class="form-label" for="end_at">End At</label>
                                     <input class="form-control" id="end_at" name="end_at"
                                         value="{{$voucher->end_at->format('Y-m-d')}}" type="date">
                                 </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label" for="is_enable">Availability</label>
-                                    <input class="form-control" id="is_enable" name="is_enable"
-                                        value="{{$voucher->is_enable}}" type="text">
-                                </div>
 
                                 <div class="mb-3">
                                     <label class="form-label" for="released_voucher">Number of Released Voucher</label>
@@ -77,18 +75,18 @@
 
                                 <button type="submit" class="btn btn-primary mb-3">Save</button>
 
-                                <form method="POST" action="{{ route('admin.vouchers.destroy',$voucher)}}">
-                                    @csrf
-                                    @method('delete')
-                                    <button class="btn btn-outline-danger mb-3" type="submit"
-                                        onclick="return confirm('Are you sure you want to delete this?');">
-                                        Delete
-                                    </button>
-                                </form>
-
+                            </form>
+                            <form method="POST" action="{{ route('admin.vouchers.destroy',$voucher)}}">
+                                @csrf
+                                @method('delete')
+                                <button class="btn btn-outline-danger mb-3" type="submit"
+                                    onclick="return confirm('Are you sure you want to delete this?');">
+                                    Delete
+                                </button>
                             </form>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>

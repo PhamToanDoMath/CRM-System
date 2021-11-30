@@ -37,29 +37,14 @@
                                                 {{$voucher->name}}
                                             </a>
                                         </td>
-                                        <td>{{$voucher->deduction_amount}}@if($voucher->type === "amount") VND
+                                        <td>{{$voucher->deduction_amount}}
+                                            @if($voucher->type === "amount") VND
                                             @elseif ($voucher->type === "precentage")%
                                             @endif
                                         </td>
                                         <td>{{$voucher->used_voucher}}/{{$voucher->released_voucher}}</td>
                                         <td>
                                             @livewire('voucher-status', ['model' => $voucher, 'field' => 'is_enable'], key($voucher->voucher_id))
-                                        </td>
-                                        <td>
-                                            <div class="col-auto">
-                                                <form method="POST" action="{{ route('admin.vouchers.destroy',$voucher)}}">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button class="btn btn-outline-danger btn-sm" type="submit"
-                                                            onclick="return confirm('Are you sure you want to delete this?');"><svg
-                                                            class="icon me-1">
-                                                            <use
-                                                                xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-trash')}}">
-                                                            </use>
-                                                        </svg>
-                                                    </button>
-                                                </form>
-                                            </div>
                                         </td>
                                         <td>
                                             <div class="col-auto">
