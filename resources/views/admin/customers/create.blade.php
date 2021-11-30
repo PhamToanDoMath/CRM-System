@@ -4,10 +4,10 @@
 <main class="c-main">
     <div class="c-body">
         <div class="container">
-            <form action="{{route('admin.customers.store')}}" enctype="multipart/form-data" method="POST">
-                <div class="row">
+            <form action="{{route('admin.customers.store')}}" method="POST">
+                <div class="row justify-content-center">
                     @csrf
-                    <div class="col-md-12">
+                    <div class="col-md-8">
                         <div class="card">
                             <div class="card-body">
                                 @if( $errors->any())
@@ -33,14 +33,7 @@
 
                                 <div class="mb-3">
                                     <label class="form-label" for="phoneNumber">Phone Number</label>
-                                    <textarea class="form-control" id="phoneNumber" name="phoneNumber"
-                                        rows="1"></textarea>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label" for="last_purchased_date">Last Purchase Date</label>
-                                    <textarea class="form-control" id="last_purchased_date" name="last_purchased_date"
-                                        rows="1"></textarea>
+                                    <input class="form-control" id="phoneNumber" name="phoneNumber"></input>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary mb-3">Save</button>

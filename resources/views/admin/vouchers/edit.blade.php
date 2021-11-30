@@ -6,6 +6,11 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6">
+                    @if(Session::has('message'))
+                    <div class="alert alert-success">
+                        {{Session::get('message')}}
+                    </div>
+                    @endif
                     <div class="card">
                         <div class="card-body">
                             <form action="{{route('admin.vouchers.update',$voucher)}}" method="POST">
@@ -76,12 +81,19 @@
                                 <button type="submit" class="btn btn-primary mb-3">Save</button>
 
                             </form>
-                            <form method="POST" action="{{ route('admin.vouchers.destroy',$voucher)}}">
+                            <form class="d-inline" method="POST" action="{{ route('admin.vouchers.destroy',$voucher)}}">
                                 @csrf
                                 @method('delete')
                                 <button class="btn btn-outline-danger mb-3" type="submit"
                                     onclick="return confirm('Are you sure you want to delete this?');">
                                     Delete
+                                </button>
+                            </form>
+                            <form class="d-inline" method="POST" action="{{ route('admin.vouchers.sendUsers',$voucher)}}">
+                                @csrf
+                                <button class="btn btn-warning mb-3" type="submit"
+                                    onclick="return confirm('Do you want to send this to all users?');">
+                                    Send voucher
                                 </button>
                             </form>
                         </div>

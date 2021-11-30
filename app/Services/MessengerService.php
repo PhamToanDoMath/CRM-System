@@ -17,8 +17,7 @@ class MessengerService{
     }
 
     public function notifyVoucher(Voucher $voucher){
-        $text = "Hey customer. We have new voucher just for you {$voucher->voucher_id}.\n
-        Remember to use it before {$voucher->end_at->format('d/m/Y')}";
+        $text = "Hey customer. We have new voucher just for you: {$voucher->voucher_id}.\nRemember to use it before {$voucher->end_at->format('d/m/Y')}";
         
         $senderIds = Customer::whereNotNull('psid')->pluck('psid')->toArray();
         (new SenderHandler())->sendMultipleMessages($senderIds,$text);

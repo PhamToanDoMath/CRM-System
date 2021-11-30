@@ -22,6 +22,7 @@ Route::get('menu','API\MenuController@index')->name('api.menu.index');
 Route::get('menu/{id}','API\MenuController@show')->name('api.menu.show');
 Route::post('order','API\OrderController@store')->name('api.order.store');
 
-Route::post('order', 'OrderController::class@store')->name('api.order');
-Route::post('customer', 'CustomerController::class@show')->name('api.customer');
+// Route::post('order', 'API\OrderController@store')->name('api.order');
+Route::post('customer', 'API\CustomerController::class@show')->name('api.customer');
 
+Route::get('voucher/{voucher_id}','API\VoucherController@show')->name('api.voucher.show');

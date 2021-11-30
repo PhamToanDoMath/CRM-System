@@ -6,6 +6,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Voucher;
 use Illuminate\Http\Response;
+use App\Services\MessengerService;
 
 class VoucherController extends Controller
 {
@@ -96,12 +97,6 @@ class VoucherController extends Controller
         return redirect()->route('admin.vouchers.index');
     }
 
-    /*
-    public function show($id) {
-        $voucher = Voucher::select('select * from vouchers where id = ?',[$id]);
-        return view('clerk.vouchers.info');
-    }
-    */
 
     /**
      * Remove the specified resource from storage.
@@ -116,4 +111,9 @@ class VoucherController extends Controller
         return redirect()->route('admin.vouchers.index');
     }
 
+
+    public function sendUsers(Voucher $voucher){
+        (new MessengerService())->notifyVoucher($voucher);
+        return redirect()->back()->with('message','Voucher has been sent!');
+    }
 }

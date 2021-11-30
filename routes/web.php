@@ -32,6 +32,9 @@ Route::group(['prefix' => 'admin','as' => 'admin.','middleware' => 'check_role:a
     //Switch status of orders
     Route::post('orders/elevate/{id}', 'OrderController@elevateStatus')->name('orders.elevateStatus');
     
+    //Send voucher to users
+    Route::post('vouchers/send/{voucher}', 'VoucherController@sendUsers')->name('vouchers.sendUsers');
+
 });
 
 Route::group(['prefix' => 'chef','as' => 'chef.','middleware' => 'check_role:chef'], function(){
@@ -45,8 +48,8 @@ Route::group(['prefix' => 'clerk','as' => 'clerk.','middleware' => 'check_role:c
 });
 
 
-Route::get('customers', 'CustomerController@create')->name('customers.register');
-Route::post('customers', 'CustomerController@store')->name('customers.store');
+Route::get('customers', 'Customer\CustomerController@create')->name('customers.register');
+Route::post('customers', 'Customer\CustomerController@store')->name('customers.store');
 
 
 

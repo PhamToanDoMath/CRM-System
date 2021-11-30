@@ -19,7 +19,7 @@ class OrderController extends Controller
         $customer = Customer::where('phoneNumber',$body['phoneNumber'])->first();
         if(!$customer){
             $customer = Customer::create([
-                // 'name' => $body['name'],
+                'name' => $body['name'] ?? NULL,
                 'phoneNumber' => $body['phoneNumber'],
                 'address' => $body['address'],
             ]);
@@ -33,6 +33,7 @@ class OrderController extends Controller
             'total' => $body['total'],
             'voucher_id'=> $body['voucher_id'],
             'address' => $body['address'],
+            'payment_method' => $body['payment_method'],
         ]);
         foreach($body['order_items'] as $orderItem){
             OrderItem::create([
@@ -41,7 +42,12 @@ class OrderController extends Controller
                 'quantity' => $orderItem['quantity'],
             ]);
         }
-        return response('OK', 200);
+
+        $array = [
+            'message' => 'OK',
+            'order_id' => $new_order->id,
+        ];
+        return response(json_encode($array), 200);
 
         // var_dump($request->json()->all());
     }
