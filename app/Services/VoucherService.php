@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\{Voucher};
 use Exception;
+use App\Models\{Voucher,Customer};
 use App\Exceptions\VoucherException;
 
 class VoucherService{

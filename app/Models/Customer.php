@@ -10,7 +10,8 @@ class Customer extends Model
         'phoneNumber',
         'name',
         'address',
-        'last_purchased_date', 
+        'last_purchased_date',
+        'psid',
     ];
 
     public function orders(){

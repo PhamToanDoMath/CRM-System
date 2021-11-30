@@ -1,8 +1,9 @@
 <?php
 
 //use App\Http\Controllers\VoucherController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,22 +25,35 @@ Route::get('/home', 'HomeController@index')->name('welcome');
 
 
 Route::group(['prefix' => 'admin','as' => 'admin.','middleware' => 'check_role:admin'], function(){
+    Route::get('dashboard', 'DashboardController@index')->name('dashboard');
     Route::resource('customers', CustomerController::class);
     Route::resource('menu', MenuController::class);
     Route::resource('orders', OrderController::class);
-    Route::post('orders/elevate/{id}', 'OrderController@elevateStatus')->name('orders.elevateStatus');
     Route::resource('vouchers', VoucherController::class);
-    Route::get('dashboard', 'DashboardController@index')->name('dashboard');
-    // Route::delete('images',[\App\Http\Controllers\ImageController::class,'destroy'])->name('images.destroy');
+
+    //Switch status of orders
+    Route::post('orders/elevate/{id}', 'OrderController@elevateStatus')->name('orders.elevateStatus');
+    
 });
 
 Route::group(['prefix' => 'chef','as' => 'chef.','middleware' => 'check_role:chef'], function(){
     Route::get('orders', 'OrderController@indexAsChef')->name('orders.index');
     Route::post('orders/elevate/{id}', 'OrderController@confirmAsChef')->name('orders.confirmAsChef');
-    // Route::post('orders', 'OrderController@confirmAsChef')->name('orders.confirmasChef');
-    // Route::resource('menu', MenuController::class)->only(['index',]);
+    
 });
 
-// Route::group(['prefix' => 'clerk','as' => 'clerk.','middleware' => 'check_role:clerk'], function(){
-//     //
-// });
+Route::group(['prefix' => 'clerk','as' => 'clerk.','middleware' => 'check_role:clerk'], function(){
+    Route::post('orders', 'OrderController@confirmAsClerk')->name('orders.confirmAsClerk');
+});
+
+
+Route::get('customers', 'CustomerController@create')->name('customers.register');
+Route::post('customers', 'CustomerController@store')->name('customers.store');
+
+
+
+// Route::get('/webhook', 'WebhookController@index')->name('webhook.index');
+// Route::post('/webhook', 'WebhookController@receive')->name('webhook.receive');
+// if ($this->app['config']->get('fb-messenger.debug')) {
+//     Route::get('fb-messenger/debug', 'DebugController@index');
+// }

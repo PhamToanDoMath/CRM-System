@@ -14,9 +14,9 @@ use App\Http\Controller;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::get('menu','API\MenuController@index')->name('api.menu.index');
 Route::get('menu/{id}','API\MenuController@show')->name('api.menu.show');

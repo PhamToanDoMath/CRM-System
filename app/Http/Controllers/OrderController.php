@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\MessengerService;
 use Illuminate\Support\Facades\Log;
 use App\Exceptions\VoucherException;
 use App\Http\Controllers\Controller;
@@ -18,7 +19,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::paginate(10);
+        $orders = Order::orderBy('updated_at','DESC')->paginate(10);
         foreach($orders as $order){
             // $customer = Customer::find($order->customer_id);
             $order->phoneNumber = Customer::find($order->customer_id)->phoneNumber;
@@ -28,10 +29,12 @@ class OrderController extends Controller
 
     public function indexAsClerk(){
         $orders = Order::where('order_status',0)->get();
+
         return view('clerk.orders.index', compact('orders'));
     }
     public function indexAsChef(){
-        $orders = Order::where('order_status',1)->get();
+        $orders = Order::whereIn('order_status',[1,2])
+            ->get();
         return view('chef.orders.index', compact('orders'));
     }
     
@@ -54,66 +57,7 @@ class OrderController extends Controller
      */
     // public function store(Request $request)
     // {
-    //     $request->validate([
-    //         'phoneNumber' => 'required',
-    //         'address' => 'required',
-    //         'payment_method' => 'required'
-    //     ]);
-
-    //     $customer = Customer::where('phoneNumber',$request['phoneNumber'])->first();
-    //     if(!$customer){
-    //         $customer = Customer::create([
-    //             'name' => $request['name'] ?? NULL,
-    //             'phoneNumber' => $request['phoneNumber'],
-    //             'address' => $request['address'],
-    //         ]);
-    //     }
-    //     $customer->update([
-    //         'last_purchased_date' => now()
-    //     ]);
-
-    //     $total = 0;
-
-    //     foreach($request['order_items'] as $orderItem){
-    //         if($orderItem['menu_id'] && $orderItem['quantity']){
-    //             $menu = Menu::where('id',$orderItem['menu_id'])->first();
-    //             if($menu){
-    //                 $total += $orderItem['quantity'] * $menu->price;
-    //             }
-    //             else{return redirect()->route('admin.orders.index');}
-    //         }
-    //     }
-
-    //     if ($request['voucher_id']){
-
-    //         //Handle exception when making a voucher transaction 
-    //         try{
-    //             $total = (new VoucherService())->getTotalAfterApplyVoucher($request['voucher_id'],$total);
-    //         }catch(VoucherException $error){
-    //             return redirect()->back()->withErrors(['token' => $error->getMessage()]); 
-    //         }
-    //     }
-        
-    //     // dd($request);
-    //     $new_order = Order::create([
-    //         'customer_id' => $customer->id,
-    //         'total' => $total,
-    //         'payment_method' => $request['payment_method'],
-    //         'voucher_id'=> $request['voucher_id'] ?? NULL,
-    //         'address' => $request['address'],
-            
-    //     ]);
-
-    //     foreach($request['order_items'] as $orderItem){
-    //         if($orderItem['menu_id'] && $orderItem['quantity']){
-    //             OrderItem::create([
-    //                 'order_id' => $new_order->id,
-    //                 'menu_id' => $orderItem['menu_id'],
-    //                 'quantity' => $orderItem['quantity'],
-    //             ]);
-    //         }
-    //     }
-    //     return redirect()->route('admin.orders.index')->with('message', 'success');
+    //
     // }
 
     /**
@@ -149,62 +93,7 @@ class OrderController extends Controller
      */
     // public function update(Request $request, Order $order)
     // {
-    //     $request->validate([
-    //         'phoneNumber' => 'required',
-    //         'address' => 'required',
-    //         'payment_method' => 'required'
-    //     ]);
-
-    //     $customer = Customer::where('phoneNumber',$request['phoneNumber'])->first();
-    //     if(!$customer){
-    //         $customer = Customer::create([
-    //             'name' => $request['name'] ?? NULL,
-    //             'phoneNumber' => $request['phoneNumber'],
-    //             'address' => $request['address'],
-    //         ]);
-    //     }
-
-    //     $total = 0;
-    //     foreach($request['order_items'] as $orderItem){
-    //         if($orderItem['menu_id'] && $orderItem['quantity']){
-    //             $menu = Menu::where('id',$orderItem['menu_id'])->first();
-    //             $total += $orderItem['quantity'] * $menu->price;
-    //         }
-    //     }
-
-    //     if ($request['voucher_id']){
-
-    //         //Handle exception when making a voucher transaction 
-    //         try{
-    //             $total = (new VoucherService())->getTotalAfterApplyVoucher($request['voucher_id'],$total);
-    //         }catch(VoucherException $error){
-    //             return redirect()->back()->withErrors(['token' => $error->getMessage()]); 
-    //         }
-    //     }
-        
-    //     $order->update([
-    //         'total' => $total,
-    //         'voucher_id'=> $request['voucher_id'] ?? NULL,
-    //         'payment_method' => $request['payment_method']
-    //     ]);
-        
-
-    //     $order_Items = OrderItem::where('order_id',$order->id)->get();
-    //     foreach($order_Items as $orderItem){
-    //         $orderItem->delete();
-    //     }
-        
-    //     foreach($request['order_items'] as $orderItem){
-    //         if($orderItem['menu_id'] && $orderItem['quantity']){
-    //             OrderItem::create([
-    //                 'order_id' => $order->id,
-    //                 'menu_id' => $orderItem['menu_id'],
-    //                 'quantity' => $orderItem['quantity'],
-    //             ]);
-    //         }
-    //     }
-        
-    //     return redirect()->route('admin.orders.index');
+    //     
     // }
 
     /**
@@ -220,9 +109,20 @@ class OrderController extends Controller
         return redirect()->route('admin.orders.index');
     }
 
+    // 0:created --confirm--  1:confirmed/preparing  --prepare--  2:preparing --complete---  3:completed 
     public function elevateStatus($id){
         $order = Order::find($id);
-        if ($order->order_status < 2) $order->order_status++;
+
+        if ($order->order_status < 3) $order->order_status++;
+
+        //If order is confirmed
+        if ($order->order_status == 1){
+            (new MessengerService())->notifyConfirmedOrder($order,Customer::find($order->customer_id)->psid);
+        }
+        //If order is completed
+        if ($order->order_status == 3){
+            (new MessengerService())->notifyCompletedOrder($order,Customer::find($order->customer_id)->psid);
+        }
         $order->save();
         return redirect()->back();
     }
@@ -231,13 +131,19 @@ class OrderController extends Controller
         $order = Order::find($id);
         if ($order->order_status == 0) $order->order_status++;
         $order->save();
+
+        (new MessengerService())->notifyConfirmedOrder($order,Customer::find($order->customer_id)->psid);
+
         return redirect()->route('clerk.orders.index');
     }
 
     public function confirmAsChef($id){
         $order = Order::find($id);
-        if ($order->order_status == 1) $order->order_status++;
+        if ($order->order_status == 1 || $order->order_status == 2 ) $order->order_status++;
         $order->save();
+
+        (new MessengerService())->notifyCompletedOrder($order,Customer::find($order->customer_id)->psid);
+
         return redirect()->route('chef.orders.index');
     }
 }

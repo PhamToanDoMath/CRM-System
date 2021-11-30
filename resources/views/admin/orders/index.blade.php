@@ -46,6 +46,9 @@
                                         <td>{{$order->address}}</td>
                                         <td>{{$order->total}} đ</td>
                                         <td><svg class="icon">
+                                            @if($order->payment_method == 'paypal')
+                                            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/brand.svg#cib-cc-paypal')}}"></use>
+                                            @endif
                                             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-wallet')}}"></use>
                                         </svg></td>
                                         <td>{{$order->created_at}}</td>
@@ -54,16 +57,21 @@
                                                 @csrf
                                                 @if($order->order_status == 0 )
                                                 <button class="btn btn-warning" type="submit"
-                                                onclick="return confirm('Are you sure you want to update this?');">
+                                                onclick="return confirm('Are you sure you want to confirm this?');">
                                                     Waiting
                                                 </button>
                                                 @elseif($order->order_status == 1)
                                                 <button class="btn btn-success" type="submit"
-                                                onclick="return confirm('Are you sure you want to update this?');">
-                                                    On Prepared
+                                                onclick="return confirm('Are you sure you want to prepare this order?');">
+                                                    Prepare
+                                                </button>
+                                                @elseif($order->order_status == 2)
+                                                <button class="btn btn-info" type="submit"
+                                                onclick="return confirm('Are you sure you want to complete this order?');">
+                                                    Complete
                                                 </button>
                                                 @else
-                                                <button class="btn btn-info active">Done</button>
+                                                <button class="btn btn-success disabled">Completed</button>
                                                 @endif
                                             </form>
                                         </td>

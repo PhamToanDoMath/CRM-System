@@ -80,7 +80,7 @@ class OrderTable extends Component
             $customer = Customer::create([
                 'name' => $request['name'] ?? NULL,
                 'phoneNumber' => $this->phoneNumber,
-                'address' => $this->address,
+                'address' => $this->address
             ]);
         }
         $customer->update([
