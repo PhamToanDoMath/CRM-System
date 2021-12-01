@@ -35,7 +35,7 @@
                                             @endif
                                             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-wallet')}}"></use>
                                         </svg></td>
-                                        <td>{{$order->created_at}}</td>
+                                        <td>{{$order->created_at->format('d-m-Y')}}</td>
                                         <td>
                                             <form action="{{route('chef.orders.confirmAsChef',$order->id)}}" method="POST">
                                                 @csrf

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Exception;
 use App\Models\Menu;
 use Livewire\Component;
 use App\Services\VoucherService;
@@ -19,7 +20,7 @@ class OrderTableUpdate extends Component
     public $count_items;
     public $inputs = [];
     public $i = 0;
-    
+    public $order_items;
     protected $rules = [
         'phoneNumber' => 'required',
         'address' => 'required',
@@ -38,14 +39,14 @@ class OrderTableUpdate extends Component
     ];
 
     public function mount(){
-        $order_items = OrderItem::where('order_id',$this->order_id)->get();
+        $this->order_items = OrderItem::where('order_id',$this->order_id)->get();
         // mount data on order items rows
-        $this->menu_id[0] = $order_items[0]->menu_id;
-        $this->quantity[0] = $order_items[0]->quantity;  
+        $this->menu_id[0] = $this->order_items[0]->menu_id;
+        $this->quantity[0] = $this->order_items[0]->quantity;  
         for($iter=1 ; $iter < $this->count_items; $iter++){
             $this->add($this->i);
-            $this->menu_id[$iter] = $order_items[$iter]->menu_id;
-            $this->quantity[$iter] = $order_items[$iter]->quantity;  
+            $this->menu_id[$iter] = $this->order_items[$iter]->menu_id;
+            $this->quantity[$iter] = $this->order_items[$iter]->quantity;  
         }
         // dd($this->menu_id);  
     }
@@ -100,18 +101,29 @@ class OrderTableUpdate extends Component
             ]);
         }
 
-        ///Validate item order and calculate total
+        ///Validate item order
         $total = 0;
         foreach($this->menu_id as $key => $value){
             if($this->menu_id[$key] && $this->quantity[$key]){
                 $menu = Menu::where('id',$this->menu_id[$key])->first();
-                if($menu){
+                $orderItem = $this->order_items->where('menu_id',$this->menu_id[$key])->first();
+                try{
+                    if(!$menu) 
+                        throw new Exception('Invalid item');
+
+                    // The item is always available when the order is made
+                    // if(!$menu->is_available) 
+                    //     throw new Exception('Item is not available at the moment!');
+                    
+                    if($this->quantity[$key] > $menu->quantity + $orderItem->quantity){ 
+                        
+                        throw new Exception('Ordering quantity is more than we had');
+                    }
                     $total += $this->quantity[$key] * $menu->price;
                 }
-                else{
-                    session()->flash('message', 'Wrong Menu ID or quantity');
-                    return redirect()->back();
-                }
+                catch(Exception $e){
+                    return redirect()->back()->with('errors', $e->getMessage());
+                };
             }
         }
 
@@ -123,6 +135,19 @@ class OrderTableUpdate extends Component
                 $total = (new VoucherService())->getTotalAfterApplyVoucher($this->voucher_id,$total);
             }catch(VoucherException $error){
                 return redirect()->back()->with('errors', $error->getMessage()); 
+            }
+        }
+
+        ///Calculate total
+        foreach($this->menu_id as $key => $value){
+            if($this->menu_id[$key] && $this->quantity[$key]){
+                $menu = Menu::where('id',$this->menu_id[$key])->first();
+                $previous_quantity = $this->order_items->where('menu_id',$this->menu_id[$key])->first()->quantity;
+                
+                //decrease quantity on menu item
+                $menu->quantity -= $this->quantity[$key] - $previous_quantity;
+                if ($menu->quantity == 0 ) $menu->is_available = 0;
+                $menu->save();
             }
         }
 
@@ -147,8 +172,7 @@ class OrderTableUpdate extends Component
   
         $this->inputs = [];
 
-        session()->flash('message', 'Order Has Been Modified.');
-        return redirect()->route('admin.orders.index');
+        return redirect()->route('admin.orders.index')->with('message', 'Success! Order Has Been Modified');
     }
 
 

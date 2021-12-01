@@ -22,8 +22,8 @@
                                     <tr class="text-center">
                                         <th scope="col">{{__('Voucher ID')}}</th>
                                         <th scope="col">{{__('Name')}}</th>
-                                        <th scope="col">{{__('Value')}}</th>
-                                        <th scope="col">{{__('Number')}}</th>
+                                        <th scope="col">{{__('Deduction Amount')}}</th>
+                                        <th scope="col">{{__('Used/Total Voucher')}}</th>
                                         <th scope="col">{{__('Availability')}}</th>
                                         <th>Delete</th>
                                     </tr>
@@ -37,9 +37,8 @@
                                                 {{$voucher->name}}
                                             </a>
                                         </td>
-                                        <td>{{$voucher->deduction_amount}}
-                                            @if($voucher->type === "amount") VND
-                                            @elseif ($voucher->type === "precentage")%
+                                        <td>{{$voucher->deduction_amount}}@if($voucher->type === "amount")$
+                                            @elseif ($voucher->type === "percentage")%
                                             @endif
                                         </td>
                                         <td>{{$voucher->used_voucher}}/{{$voucher->released_voucher}}</td>

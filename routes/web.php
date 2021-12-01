@@ -24,6 +24,8 @@ Route::get('/home', 'HomeController@index')->name('welcome');
 
 Route::group(['prefix' => 'admin','as' => 'admin.','middleware' => 'check_role:admin'], function(){
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+    Route::get('export/customers', 'ExportController@export')->name('export.customers');
+
     Route::resource('customers', CustomerController::class);
     Route::resource('menu', MenuController::class);
     Route::resource('orders', OrderController::class);
@@ -35,6 +37,9 @@ Route::group(['prefix' => 'admin','as' => 'admin.','middleware' => 'check_role:a
     //Send voucher to users
     Route::post('vouchers/send/{voucher}', 'VoucherController@sendUsers')->name('vouchers.sendUsers');
 
+    //Update image
+    Route::post('image/{menu_id}','ImageController@update')->name('menu.imageUpload');
+    Route::delete('image/{menu_id}','ImageController@destroy')->name('menu.imageDestroy');
 });
 
 Route::group(['prefix' => 'chef','as' => 'chef.','middleware' => 'check_role:chef'], function(){
@@ -50,11 +55,4 @@ Route::group(['prefix' => 'clerk','as' => 'clerk.','middleware' => 'check_role:c
 
 Route::get('customers', 'Customer\CustomerController@create')->name('customers.register');
 Route::post('customers', 'Customer\CustomerController@store')->name('customers.store');
-
-
-
-// Route::get('/webhook', 'WebhookController@index')->name('webhook.index');
-// Route::post('/webhook', 'WebhookController@receive')->name('webhook.receive');
-// if ($this->app['config']->get('fb-messenger.debug')) {
-//     Route::get('fb-messenger/debug', 'DebugController@index');
-// }
+Route::get('history/purchase', 'Customer\HistoryController@index')->name('customers.purchase');

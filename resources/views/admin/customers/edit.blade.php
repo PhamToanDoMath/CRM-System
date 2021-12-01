@@ -27,23 +27,14 @@
                             </div>
 
                             <div class="mb-3">
-                                    <label class="form-label" for="address">Address</label>
-                                    <input class="form-control" id="address" name="address" value="{{$customer->address}}"
-                                        rows="1">
-                                </div>
+                                <label class="form-label" for="phoneNumber">Phone Number</label>
+                                <input class="form-control" id="phoneNumber" name="phoneNumber" value="{{$customer->phoneNumber}}">
+                            </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label" for="phoneNumber">Phone Number</label>
-                                    <input class="form-control" id="phoneNumber" name="phoneNumber" value="{{$customer->phoneNumber}}"
-                                        rows="1">
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label" for="last_purchased_date">Last Purchase Date</label>
-                                    <input class="form-control" id="last_purchased_date" name="last_purchased_date" value="{{$customer->last_purchased_date}}"
-                                        rows="1">
-                                </div>
-
+                            <div class="mb-3">
+                                <label class="form-label" for="address">Address</label>
+                                <input class="form-control" id="address" name="address" type="text" value="{{$customer->address}}">
+                            </div>
                             <button type="submit" class="btn btn-primary mb-3">Save</button>
                         </form>
                         </div>

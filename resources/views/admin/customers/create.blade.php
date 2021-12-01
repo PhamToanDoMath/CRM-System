@@ -21,19 +21,18 @@
                                 @endif
 
                                 <div class="mb-3">
-                                    <label class="form-label" for="name">Full Name</label>
+                                    <label class="form-label" for="name">Full Name(*)</label>
                                     <input class="form-control" id="name" name="name" type="text">
                                 </div>
 
                                 <div class="mb-3">
+                                    <label class="form-label" for="phoneNumber">Phone Number(*)</label>
+                                    <input class="form-control" id="phoneNumber" name="phoneNumber"></input>
+                                </div>
+                                <div class="mb-3">
                                     <label class="form-label" for="address">Address</label>
                                     <textarea class="form-control" id="address" name="address"
                                         rows="1"></textarea>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label" for="phoneNumber">Phone Number</label>
-                                    <input class="form-control" id="phoneNumber" name="phoneNumber"></input>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary mb-3">Save</button>

@@ -20,9 +20,9 @@ class ShowProductMenuHandler extends BaseHandler
      */
     public function handle(ReceiveMessage $message)
     {
-        if ($message->getMessage() === 'Show Menu') {
+        if ($message->getMessage() === 'Get Started') {
             $senderId = $message->getSender();
-            $this->send(new Text($senderId, 'This is my menu list'));
+            $this->send(new Text($senderId, 'Welcome to our restaurant'));
 
             $postback = new WelcomePostback();
             $this->send($postback->createMainMenu($senderId));

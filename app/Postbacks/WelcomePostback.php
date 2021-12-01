@@ -49,16 +49,19 @@ class WelcomePostback extends PostbackHandler
     {
         //Check if customer exists in registered table
         $customer = Customer::where('psid',$senderId)->first();
-
-        // Make button template
-        $template = new ButtonTemplate($senderId, 'Sign in to get more features');
         
         if (!$customer){
-            $template->add(new UrlButton('Sign In', 'https://google.com?psid='.$senderId));
+            // Make button template
+            $template = new ButtonTemplate($senderId, 'Sign in to get more features');
+            $template->add(new UrlButton('Menu', 'https://damp-dawn-45655.herokuapp.com/'));
+            $template->add(new UrlButton('Sign In', route('customers.register') .'?psid='.$senderId));
+        }else{
+            // Make button template
+            $template = new ButtonTemplate($senderId, 'Please take a look on our website. ');
+            $template->add(new UrlButton('Website', 'https://damp-dawn-45655.herokuapp.com/'));
+            $template->add(new UrlButton('Purchase History', route('customers.purchase')));
+            // $template->addPostBackButton('Product 2', 'BUY_PRODUCT_2');
         }
-        $template->add(new UrlButton('Purchase History', 'https://google.com'));
-        // $template->addPostBackButton('Product 2', 'BUY_PRODUCT_2');
-
         return $template;
     }
 }

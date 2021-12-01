@@ -15,7 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->constrained();
+            $table->foreignId('customer_id')->constrained()->onDelete('set null');
             $table->bigInteger('total');
             $table->string('voucher_id')->nullable();
             $table->text('address');

@@ -7,7 +7,7 @@
             <div class="row mb-4">
                 @if(Session::has('message'))
                     <div class="alert alert-success">
-                        Success! You have created a new order
+                        {{Session::get('message')}}
                     </div>
                 @endif
                 <div class="col-auto">
@@ -43,7 +43,7 @@
                                         </td>
                                         <td>{{$order->phoneNumber}}</td>
                                         <td>{{$order->address}}</td>
-                                        <td>{{$order->total}} đ</td>
+                                        <td>{{$order->total}}$</td>
                                         <td><svg class="icon" style="width:1.8rem;height:1.8rem;">
                                             @if($order->payment_method == 'paypal')
                                             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/brand.svg#cib-cc-paypal')}}"></use>
@@ -51,7 +51,7 @@
                                             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-wallet')}}"></use>
                                             @endif
                                         </svg></td>
-                                        <td>{{$order->created_at}}</td>
+                                        <td>{{$order->created_at->format('h:s d-m-Y')}}</td>
                                         <td>
                                             <form action="{{route('admin.orders.elevateStatus',$order->id)}}" method="POST">
                                                 @csrf

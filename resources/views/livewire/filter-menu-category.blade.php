@@ -47,7 +47,7 @@
                                     {{$menuItem->name}}</a>
                             </td>
                             <td>{{$menu_groups->where('id',$menuItem->menu_group_id)->first()->name}}</td>
-                            <td>{{$menuItem->price}}</td>
+                            <td>{{$menuItem->price}}$</td>
                             <td>{{$menuItem->quantity}}</td>
                             <td>
                                 <div class="form-check form-switch">

@@ -176,6 +176,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Casperlaitw\LaravelFbMessenger\LaravelFbMessengerServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -230,6 +231,7 @@ return [
         'Menu' => Casperlaitw\LaravelFbMessenger\Facades\MessengerMenu::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

@@ -20,6 +20,11 @@
                                     </ul>
                                 </div>
                             @endif
+                            @if(Session::has('message'))
+                                <div class="alert alert-success">
+                                    {{Session::get('message')}}
+                                </div>
+                            @endif
                             
                             <div class="mb-3">
                                 <label class="form-label" for="name">Name</label>
@@ -73,8 +78,7 @@
                                     >
                                 </div>
                                 {{-- <div class="mt-3">
-                                    <a href="#" class="btn btn-primary btn-sm">Upload image</a>
-                                    <form class="d-inline" action="" method="POST">
+                                    <form class="d-inline" action="{{route('admin.menu.imageDestroy',$menu->id)}}" method="POST">
                                         @method('DELETE')
                                         @csrf
                                         <button class="btn btn-danger btn-sm" type="submit"
@@ -89,9 +93,13 @@
                                         / width="100%"
                                     >
                                 </div>
-                                {{-- <div class="mt-3">
-                                    <a href="#" class="btn btn-primary btn-sm">Upload image</a>
-                                </div> --}}
+                                <form class="d-inline" action="{{route('admin.menu.imageUpload',$menu->id)}}" enctype="multipart/form-data" method="POST">
+                                    @csrf
+                                    <div class="mt-3">
+                                        <input class="form-control" type="file" name="image" id="image" class="form-control">
+                                        <button class="btn btn-primary mt-3" type="submit">Update</button>
+                                    </div>
+                                </form>
                             @endif                         
                         </div>
                     </div>

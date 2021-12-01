@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Order;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
@@ -33,9 +34,8 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         //
-        $customer = Customer::create($request->validate([
+        Customer::create($request->validate([
             'name'=> 'required',
-            'address' => 'required',
             'phoneNumber' => 'required|unique:customers',
         ]));
         return redirect()->route('admin.customers.index');
@@ -61,7 +61,7 @@ class CustomerController extends Controller
     public function edit(Customer $customer)
     {
         //
-        return view('admin.users.edit', compact('customer'))->with('customer',$customer);
+        return view('admin.customers.edit', compact('customer'))->with('customer',$customer);
     }
 
     /**
@@ -77,9 +77,10 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
         $customer->update($request->validate([
             'name'=> 'required',
-            'phoneNumber' => 'required',
-            'address' => 'required',
+            'phoneNumber' => 'required|unique:customers,phoneNumber,' . $customer->id,
         ]));
+        $customer->update(['address' => $request['address']]);
+
 
         return redirect()->route('admin.customers.index');
     }
@@ -92,9 +93,11 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Order::where('customer_id',$id)->get()) return redirect()->route('admin.customers.index')->withErrors("Can't delete the user if there still orders that belong to user");
+        
         $customer = Customer::find($id);
         $customer->delete();
         return redirect()->route('admin.customers.index');
     }
+
 }

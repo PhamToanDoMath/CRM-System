@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use Exception;
 use App\Models\Menu;
 use Livewire\Component;
 use App\Services\VoucherService;
+use Illuminate\Support\Facades\Log;
 use App\Exceptions\VoucherException;
 use App\Models\{Order,OrderItem,Customer};
 
@@ -87,18 +89,24 @@ class OrderTable extends Component
             'last_purchased_date' => now()
         ]);
 
-        ///Validate item order and calculate total
+        ///Validate item order
         $total = 0;
         foreach($this->menu_id as $key => $value){
             if($this->menu_id[$key] && $this->quantity[$key]){
                 $menu = Menu::where('id',$this->menu_id[$key])->first();
-                if($menu){
+                try{
+                    if(!$menu) 
+                        throw new Exception('Invalid item');
+                    if(!$menu->is_available) 
+                        throw new Exception('Item is not available at the moment!');
+                    if($this->quantity[$key] > $menu->quantity) 
+                        throw new Exception('Ordering quantity is more than we had');
                     $total += $this->quantity[$key] * $menu->price;
                 }
-                else{
-                    session()->flash('message', 'Wrong Menu ID or quantity');
-                    return redirect()->back();
-                }
+                catch(Exception $e){
+                    // Log::info('asdf');
+                    return redirect()->back()->with('errors', $e->getMessage());
+                };
             }
         }
 
@@ -110,6 +118,19 @@ class OrderTable extends Component
                 $total = (new VoucherService())->getTotalAfterApplyVoucher($this->voucher_id,$total);
             }catch(VoucherException $error){
                 return redirect()->back()->with('errors', $error->getMessage()); 
+            }
+        }
+
+        ///Calculate total
+        foreach($this->menu_id as $key => $value){
+            if($this->menu_id[$key] && $this->quantity[$key]){
+                $menu = Menu::where('id',$this->menu_id[$key])->first();
+                // $total += $this->quantity[$key] * $menu->price;
+
+                //decrease quantity on menu item
+                $menu->quantity -= $this->quantity[$key];
+                if ($menu->quantity == 0 ) $menu->is_available = 0;
+                $menu->save();
             }
         }
 
@@ -134,8 +155,7 @@ class OrderTable extends Component
    
         $this->resetInputFields();
    
-        session()->flash('message', 'Order Has Been Created Successfully.');
-        return redirect()->route('admin.orders.index');
+        return redirect()->route('admin.orders.index')->with('message', 'Success! Order Has Been Created');
     }
 
 
