@@ -49,7 +49,10 @@ Route::group(['prefix' => 'chef','as' => 'chef.','middleware' => 'check_role:che
 });
 
 Route::group(['prefix' => 'clerk','as' => 'clerk.','middleware' => 'check_role:clerk'], function(){
-    Route::post('orders', 'OrderController@confirmAsClerk')->name('orders.confirmAsClerk');
+    Route::get('orders', 'OrderController@indexAsClerk')->name('orders.index');
+    Route::get('orders/create', 'OrderController@createAsClerk')->name('orders.create');
+    Route::get('orders/{order}', 'OrderController@edit')->name('orders.edit');
+    Route::post('orders/elevate/{id}', 'OrderController@confirmAsClerk')->name('orders.confirmAsClerk');
 });
 
 

@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
             'name' => 'clerk',
             'email' => 'clerk@clerk.com',
             'password' => bcrypt('clerk123'),
-            'is_chef' => true,
+            'is_clerk' => true,
         ]);
     }
 }

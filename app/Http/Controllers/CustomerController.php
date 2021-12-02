@@ -93,8 +93,11 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        if(Order::where('customer_id',$id)->get()) return redirect()->route('admin.customers.index')->withErrors("Can't delete the user if there still orders that belong to user");
-        
+        // dd(Order::where('customer_id',$id)->get()->isEmpty());
+        if(!Order::where('customer_id',$id)->get()->isEmpty()){
+            return redirect()->route('admin.customers.index')
+            ->withErrors("Can't delete the user if there still orders that belong to user");
+        }
         $customer = Customer::find($id);
         $customer->delete();
         return redirect()->route('admin.customers.index');

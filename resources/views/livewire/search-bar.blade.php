@@ -54,15 +54,22 @@
                             @else {{$customer->name}}
                             @endif
                         </td>
-                        <td>{{$customer->address}}</td>
+                        <td>@if($customer->address){{$customer->address}}@else N/A @endif</td>
                         <td>{{$customer->created_at->format('d-m-Y')}}</td>
                         <td><a href="{{route('admin.customers.edit',$customer)}}"
-                                class="btn btn-warning d-inline">Edit</a>
+                                class="btn btn-warning d-inline btn-sm">Edit</a>
                             {!!Form::open(['action' => ['CustomerController@destroy', $customer->id],
                             'method' => 'POST', 'class' => 'pull-right d-inline'])!!}
                             {{Form::hidden('_method', 'DELETE')}}
-                            {{Form::submit('Delete', ['class' => 'btn btn-outline-danger'] )}}
+                            {{Form::submit('Delete', ['class' => 'btn btn-outline-danger btn-sm'] )}}
                             {!!Form::close()!!}
+                            {{-- <form class="d-inline" method="POST" action="{{route('admin.customers.destroy',$customer->id)}}">
+                                @csrf
+                                @method('delete')
+                                <button class="btn btn-danger" type="submit"
+                                    onclick="return confirm('Are you sure you want to delete this?');">Delete
+                                </button>
+                            </form> --}}
                         </td>
                     </tr>
                     @endforeach

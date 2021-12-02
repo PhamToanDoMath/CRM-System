@@ -28,13 +28,23 @@ class OrderController extends Controller
     }
 
     public function indexAsClerk(){
-        $orders = Order::where('order_status',0)->get();
-
+        $orders = Order::whereIn('order_status',[0,1])
+        ->orderBy('updated_at','DESC')
+        ->get();
+        foreach($orders as $order){
+            // $customer = Customer::find($order->customer_id);
+            $order->phoneNumber = Customer::find($order->customer_id)->phoneNumber;
+        }
         return view('clerk.orders.index', compact('orders'));
     }
     public function indexAsChef(){
         $orders = Order::whereIn('order_status',[1,2])
-            ->get();
+        ->orderBy('updated_at','DESC')
+        ->get();
+        foreach($orders as $order){
+            // $customer = Customer::find($order->customer_id);
+            $order->phoneNumber = Customer::find($order->customer_id)->phoneNumber;
+        }
         return view('chef.orders.index', compact('orders'));
     }
     
@@ -49,6 +59,11 @@ class OrderController extends Controller
         return view('admin.orders.create');
     }
 
+
+    public function createAsClerk()
+    {
+        return view('clerk.orders.create');
+    }
     /**
      * Store a newly created resource in storage.
      *

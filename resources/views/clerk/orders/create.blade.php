@@ -5,7 +5,7 @@
     <div class="c-body">
         <div class="container">
             @livewire('order-table',[
-                'view' => 'admin'
+                'view' => 'clerk'
             ])
         </div>
     </div>

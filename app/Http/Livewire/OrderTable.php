@@ -18,7 +18,7 @@ class OrderTable extends Component
     public $updateMode = false;
     public $inputs = [];
     public $i = 1;
-    
+    public $view;
     protected $rules = [
         'phoneNumber' => 'required',
         'address' => 'required',
@@ -155,7 +155,7 @@ class OrderTable extends Component
    
         $this->resetInputFields();
    
-        return redirect()->route('admin.orders.index')->with('message', 'Success! Order Has Been Created');
+        return redirect()->route($this->view . '.orders.index')->with('message', 'Success! Order Has Been Created');
     }
 
 

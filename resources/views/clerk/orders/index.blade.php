@@ -5,7 +5,19 @@
     <div class="c-body">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-12">
+                    <div class="col-md-12 mb-2">
+                        @if(Session::has('message'))
+                        <div class="alert alert-success">
+                            {{Session::get('message')}}
+                        </div>
+                    @endif
+                    <div class="col-auto mb-3">
+                        <a class="btn btn-primary" type="button" href="{{route('clerk.orders.create')}}">
+                            <svg class="icon me-1">
+                                <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-plus')}}"></use>
+                            </svg>New
+                        </a>
+                    </div>
                     <div class="card">
                         <table class="table table-responsive-sm">
                             <thead>
@@ -23,6 +35,7 @@
                                 @foreach($orders as $order)
                                     <tr class="text-center">
                                         <td>
+                                            <a href="{{route('clerk.orders.edit',$order)}}">
                                                 {{$order->id}}</a>
                                         </td>
                                         <td>{{$order->phoneNumber}}</td>
@@ -36,20 +49,16 @@
                                         </svg></td>
                                         <td>{{$order->created_at->format('d-m-Y')}}</td>
                                         <td>
-                                            <form action="{{route('chef.orders.confirmAsChef',$order->id)}}" method="POST">
+                                            <form action="{{route('clerk.orders.confirmAsClerk',$order->id)}}" method="POST">
                                                 @csrf
-                                                @if($order->order_status == 1)
+                                                @if($order->order_status == 0)
                                                 <button class="btn btn-warning" type="submit"
-                                                onclick="return confirm('Are you sure you want to prepare this?');">
-                                                    Prepare
+                                                onclick="return confirm('Are you sure you want to confirm this?');">
+                                                    Confirm
                                                 </button>
-                                                @elseif($order->order_status == 2 )
-                                                <button class="btn btn-info" type="submit"
-                                                onclick="return confirm('Is this order completed?');">
-                                                    Complete</button>
-                                                @elseif($order->order_status == 3 )
-                                                <button class="btn btn-success disabled">
-                                                    Completed</button>
+                                                @elseif($order->order_status == 1 )
+                                                <button class="btn btn-info disabled">
+                                                    Confirmed</button>
                                                 @endif
                                             </form>
                                         </td>

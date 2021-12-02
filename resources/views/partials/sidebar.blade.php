@@ -192,5 +192,79 @@
         </div>
     </ul>
     @endif
+
+    @if(auth()->user()->is_clerk)
+    <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="init">
+        <div class="simplebar-wrapper" style="margin: 0px;">
+            <div class="simplebar-height-auto-observer-wrapper">
+                <div class="simplebar-height-auto-observer"></div>
+            </div>
+            <div class="simplebar-mask">
+                <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                    <div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden scroll;">
+                        <div class="simplebar-content" style="padding: 0px;">
+
+                            <li class="nav-item"><a class="nav-link active" href="index.html">
+                                    <svg class="nav-icon">
+                                        <use
+                                            xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-speedometer') }}">
+                                        </use>
+                                    </svg> Dashboard<span class="badge bg-info-gradient ms-auto">NEW</span>
+                                </a>
+                            </li>
+
+
+
+                            {{-- <li class="nav-title">Manage Menu</li>
+                            <li class="nav-group"><a class="nav-link" href="{{route('chef.menu.index')}}">
+                                    <svg class="nav-icon">
+                                        <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-dinner')}}">
+                                        </use>
+                                    </svg>Restaurant Menu</a>
+                            </li> --}}
+
+                            <li class="nav-title">Manage Orders</li>
+                            <li class="nav-group"><a class="nav-link" href="{{route('clerk.orders.index')}}">
+                                    <svg class="nav-icon">
+                                        <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-basket')}}">
+                                        </use>
+                                    </svg>Orders</a>
+
+                            </li>
+                            <li class="nav-group"><a class="nav-link" href="{{route('clerk.orders.create')}}">
+                                <svg class="nav-icon">
+                                    <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-plus')}}">
+                                    </use>
+                                </svg>New Order</a>
+                            </li>
+
+
+                            <li class="nav-item mt-auto"><a class="nav-link" href="login.html" target="_top"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <svg class="nav-icon">
+                                        <use
+                                            xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-account-logout') }}">
+                                        </use>
+                                    </svg> Logout</a>
+                            </li>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="simplebar-placeholder" style="width: auto; height: 1295px;"></div>
+        </div>
+        <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+            <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
+        </div>
+        <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+            <div class="simplebar-scrollbar"
+                style="height: 525px; transform: translate3d(0px, 300px, 0px); display: block;"></div>
+        </div>
+    </ul>
+    @endif
     <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
 </div>
