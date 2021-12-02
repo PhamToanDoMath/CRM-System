@@ -33,7 +33,7 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="type">Type</label>
                                         <select class="form-control" id="type" name="type" type="text">
-                                            <option selected>--Select--</option>
+                                            <option value="">--Select--</option>
                                             <option value="amount">Amount</option>
                                             <option value="percentage">Percentage</option>
                                         </select>

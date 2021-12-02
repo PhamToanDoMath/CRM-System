@@ -42,8 +42,8 @@
                                     <label class="form-label" for="type">Type</label>
                                     <select class="form-control" id="type" name="type" type="text">
                                         <option selected>--Select--</option>
-                                        <option  @if($voucher->type == 'amount') selected @endif>Amount</option>
-                                        <option @if($voucher->type == 'percentage') selected @endif}}>Percentage</option>
+                                        <option value="amount" @if($voucher->type == 'amount') selected @endif>Amount</option>
+                                        <option value="percentage" @if($voucher->type == 'percentage') selected @endif}}>Percentage</option>
                                     </select>
                                 </div>
 

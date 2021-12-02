@@ -32,6 +32,13 @@ class ShowProductMenuHandler extends BaseHandler
             $postback = new WelcomePostback();
             $this->send($postback->createMainMenu($senderId));
         }
+        elseif (str_contains($messageLower, 'recommend') ||
+            str_contains($messageLower, 'assist')
+        ) {
+            $this->send(new Text($senderId, 'Welcome to Lau Chay Restaurant!'));
+            $postback = new WelcomePostback();
+            $this->send($postback->createMainMenu($senderId));
+        }
         elseif(str_contains($messageLower, 'thank')){
             $this->send(new Text($senderId, "Thank you for using our service!"));
         }
