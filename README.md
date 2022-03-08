@@ -1,38 +1,76 @@
-Hướng dẫn khởi tạo môi trường trên Linux:
+# Introduction: 
+The purpose of a CRM system is to store information regarding customers who have made
+transactions with the restaurant. From there, it is possible to make a list of potential customers
+for the restaurant so that reasonable business strategies can be devised. Therefore, within the
+scope of this project, we perform some basic functions that a CRM system should have, including:
+customer information management, order management, restaurant menu management, voucher
+management,... 
 
-Bước 1: Cài đặt PHP và MySQL <br>
-<code>apt-get install mysql-server </code> <br>
-<code>sudo apt install php7.4 php7.4-common php7.4-cli php7.4-xml php7.4-curl php7.4-json php7.4-gd php7.4-mbstring php7.4-intl 
-php7.4-bcmath php7.4-bz2 php7.4-readline php7.4-zip php7.4-mysql</code><br>
-Bước 1b: Cài đặt composer<br>
-<code> curl -sS https://getcomposer.org/installer | php </code><br>
-<code> mv composer.phar /usr/bin/composer</code> <br>
+In addition, this CRM system will also decentralize administration based on employee roles in the restaurant including: Owner, Clerk and Chef - each role will be limited
+with only a handful of features to ensure the security of restaurant data.
 
-Bước 2a: Kéo repo về <br>
-Bước 2b: Di chuyển vào thư mục vừa kéo về <br>
-<code>cd CRM-System</code><br>
-Bước 2c: Tải vendors về <br>
-<code>composer install</code><br>
+# Get Started:
 
-Bước 3: Copy file .env<br>
-<code>copy .env.example .env</code><br>
+**Prequisite:**
 
-Bước 4: Điều chỉnh trên file .env như sau:<br>
+* PHP and MySQL
+```
+apt-get install mysql-server
+sudo apt install php7.4 php7.4-common php7.4-cli php7.4-xml php7.4-curl php7.4-json php7.4-gd php7.4-mbstring php7.4-intl 
+php7.4-bcmath php7.4-bz2 php7.4-readline php7.4-zip php7.4-mysql
+```
+
+* Composer
+``` 
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/bin/composer
+```
+
+**Installation:**
+
+1. Clone this repo
+
+2. Move to the directory
+```
+cd CRM-System
+```
+
+3. Install dependency with composer
+```
+composer install
+```
+4. Create new .env file
+```
+cp .env.example .env
+```
+
+5. Modify .env file as follow:
+```
 DB_HOST=localhost<br>
 DB_DATABASE=laravel<br>
+```
 
-Bước 5: Chạy dịch vụ mySQL trên linux<br>
-<code>service mysql start</code><br>
+6. Run MySQL service
+```
+service mysql start
+```
 
-Bước 6:Truy cập mySQL<br>
-<code>mysql -u root -p</code><br>
+7. Log in MySQL
+```
+mysql -u root -p
+```
 
-Bước 7: Nhập lệnh dưới vào mysql CLI<br>
-CREATE DATABASE laravel;<br>
-exit;<br>
+8. Create new database for laravel
+```
+CREATE DATABASE laravel;
+exit;
+```
+9. Initialize database with Laravel Seeder
+```
+php artisan migrate --seed
+```
 
-Bước 8: Khởi tạo database trên MySQL<br>
-<code>php artisan migrate --seed</code><br>
-
-Bước 9: Chạy web<br>
-<code>php artisan serve</code><br>
+10. Run local server
+```
+php artisan serve
+```
