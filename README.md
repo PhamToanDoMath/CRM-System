@@ -1,7 +1,7 @@
 ## HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY HCMUT - BACH KHOA, VIETNAM NATIONAL UNIVERSITY - HO CHI MINH
 ## SOFTWARE ENGINEERING PROJECT - SEMESTER 211
 ## Restaurant POS System 2.0
-
+[Final report here](/Document/Programming_Intergration_Project_Report.pdf)
 ### Table of contents:
 
 * [About the team](#about-the-team)
@@ -37,7 +37,7 @@ Therefore, within the scope of this project, we perform some basic functions tha
 
 In addition, this CRM system will also decentralize administration based on employee roles in the restaurant including: Owner, Clerk, Chef - each role will be __limited with only a handful__ of features to ensure the security of restaurant data.
 
-For further details, please take a look at our [final report](Document\Programming_Intergration_Project_Report.pdf)
+For further details, please take a look at our [final report](/Document/Programming_Intergration_Project_Report.pdf)
 
 ### Use-Case Diagram
 
