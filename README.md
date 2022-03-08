@@ -125,5 +125,5 @@ php artisan migrate --seed
 php artisan serve
 ```
 
-###Reference:
+### Reference:
 This project is linked to another front-end website which send orders data to our CRM. Please take a look at this [repo](https://github.com/CapiZerbino/foodorder_project)
